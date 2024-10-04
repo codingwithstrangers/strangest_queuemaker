@@ -61,23 +61,23 @@ class User_Builder:
         print(f'Updated user profiles: {self.user_profiles}')
 
 
-class Bot:
-    def __init__(self):
-        self.access_manager = Get_Access()  # Manage access tokens
-        self.user_builder = User_Builder(self.access_manager)  # Manage Twitch client and subscriptions
-
-    async def run(self):
-        print("Bot is starting...")
-        await self.user_builder.build_user()
-
-    def start(self):
-        # Launch the bot asynchronously and handle manual exit
-        try:
-            asyncio.run(self.run())
-        except KeyboardInterrupt:
-            print("Bot was stopped manually.")
+async def main():
+    access_manager = Get_Access()  # Manage access tokens
+    user_builder = User_Builder(access_manager)  # Manage Twitch client and subscriptions
+    
+    # Start the user building process
+    await user_builder.build_user()
 
 
 if __name__ == "__main__":
-    bot = Bot()
-    bot.start()
+    # Initialize the client and run the main function in its event loop
+    client = twitchio.Client(token=USER_TOKEN)
+
+    # Assign the PubSubPool to the client
+    client.pubsub = pubsub.PubSubPool(client)
+
+    try:
+        # Run the main function until it completes
+        client.loop.run_until_complete(main())
+    except KeyboardInterrupt:
+        print("Bot was stopped manually.")
