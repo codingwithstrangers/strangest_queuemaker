@@ -18,14 +18,20 @@ client.pubsub = pubsub.PubSubPool(client)
 # Event for handling bit redemptions
 @client.event()
 async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
+    user_name = event.user.name
+    amount = event.bits_used
+    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    message = event.message if hasattr(event,"message") else "NA"
     print(f"Bits received: {event.bits_used} from {event.user.name}")
     # Here, you can add your logic to handle bit redemptions
 
-# Event for handling channel points redemptions (if needed)
-@client.event()
-async def event_pubsub_channel_points(event: pubsub.PubSubChannelPointsMessage):
-    print(f"Channel points redeemed: {event.reward.title} by {event.user.name}")
-    # Add your logic to handle channel points redemptions here if necessary
+    # use the this key:value
+    users_profiles[user_name] = {
+        "amount": amount,
+        "time": time,
+        "message": message
+    }
+
 
 async def main():
     # Define the topics to subscribe to
