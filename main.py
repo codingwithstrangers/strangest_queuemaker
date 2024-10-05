@@ -1,83 +1,45 @@
 import twitchio
 import asyncio
-from twitchio.ext import pubsub
+from twitchio.ext import commands, pubsub
 from configuration import *
+import json
 from datetime import datetime
 
-class Get_Access:
-    def __init__(self):     
-        self.user_token = USER_TOKEN
-        self.oauth_token = CLIENT_ID
-        self.broadcaster_id = int(BROADCASTER_ID)
+# Dictionary to store user profiles
+users_profiles = {}
 
-    def verify_token(self):
-        twitch_ready = self.user_token and self.oauth_token and self.broadcaster_id
-        if twitch_ready:
-            print("Twitch tokens are ready to go!")
-            return True
-        else:
-            print("Error: One or more Twitch tokens are missing.")
-            return False
+user_token = USER_TOKEN
+oauth_token = CLIENT_ID
+broadcaster_id = int(BROADCASTER_ID)
 
+client = twitchio.Client(token=user_token)
+client.pubsub = pubsub.PubSubPool(client)
 
-class User_Builder:
-    def __init__(self, access):
-        self.access = access
-        self.client = twitchio.Client(token=self.access.user_token)
-        self.client.pubsub = pubsub.PubSubPool(self.client)
-        self.user_profiles = {}
+# Event for handling bit redemptions
+@client.event()
+async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
+    print(f"Bits received: {event.bits_used} from {event.user.name}")
+    # Here, you can add your logic to handle bit redemptions
 
-    # Building twitchio user subscribe event
-    async def build_user(self):
-        if self.access.verify_token():
-            print('User_Builder has access to Twitch client')
-            await self.subscribe_to_events()
-            await self.client.start()
-
-    async def subscribe_to_events(self):
-        topics = [
-            pubsub.channel_points(self.access.oauth_token)[self.access.broadcaster_id],
-            pubsub.bits(self.access.oauth_token)[self.access.broadcaster_id]
-        ]
-        await self.client.pubsub.subscribe_topics(topics)
-        print('Subscribed to topics')
-
-    # Event handler for bits redemptions
-    async def event_pubsub_bits(self, event: pubsub.PubSubBitsMessage):
-        print('Received bits event')
-        print(f'Bits Amount: {event.bits_used}, User: {event.user.name if event.user else "Anonymous"}')
-
-        # Store your data
-        user_name = event.user.name if event.user else "Stranger"
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Get current timestamp
-        
-        # Add user to the profile dictionary
-        self.user_profiles[user_name] = {
-            'bit_used': event.bits_used,
-            'message': event.message,
-            'channel_id': event.channel_id,
-            'timestamp': timestamp
-        }
-        print(f'Updated user profiles: {self.user_profiles}')
-
+# Event for handling channel points redemptions (if needed)
+@client.event()
+async def event_pubsub_channel_points(event: pubsub.PubSubChannelPointsMessage):
+    print(f"Channel points redeemed: {event.reward.title} by {event.user.name}")
+    # Add your logic to handle channel points redemptions here if necessary
 
 async def main():
-    access_manager = Get_Access()  # Manage access tokens
-    user_builder = User_Builder(access_manager)  # Manage Twitch client and subscriptions
+    # Define the topics to subscribe to
+    topics = [
+        pubsub.bits(user_token)[broadcaster_id],
+        
+    ]
     
-    # Start the user building process
-    await user_builder.build_user()
+    # Subscribe to the defined topics
+    await client.pubsub.subscribe_topics(topics)
+    
+    # Start the client
+    await client.start()
 
-
+# Run the main function
 if __name__ == "__main__":
-    # Initialize the client and run the main function in its event loop
-    client = twitchio.Client(token=USER_TOKEN)
-
-    # Assign the PubSubPool to the client
-    client.pubsub = pubsub.PubSubPool(client)
-
-    try:
-        # Run the main function until it completes
-        client.loop.run_until_complete(main())
-    except KeyboardInterrupt:
-        print("Bot was stopped manually.")
+    client.loop.run_until_complete(main())
