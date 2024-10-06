@@ -63,7 +63,9 @@ from datetime import datetime
 import spotipy
 import refresh_token
 from spotipy.oauth2 import SpotifyClientCredentials
-from cws_songs import regular_cws_songs, dlc_cws_songs 
+from cws_songs import regular_cws_songs, dlc_cws_songs
+import threading
+import time  # Importing the time module
 
 # Setup Spotify API authentication
 client_id = SPOTIFY_CLIENT_ID
@@ -82,6 +84,17 @@ def get_song_length(sp, artist, song):
         return track['duration_ms'] / 1000  # Return length in seconds
     return 191  # Return default length of 3 minutes and 11 seconds
 
+def format_time(seconds):
+    """Convert seconds to H:MM:SS format."""
+    hours, remainder = divmod(seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
+
+# Function to export users profiles to JSON
+def export_to_json():
+    with open('user_profiles.json', 'w') as f:
+        json.dump(users_profiles, f, indent=4)  # Exporting users_profiles to JSON
+
 # Dictionary to store user profiles
 users_profiles = {}
 
@@ -97,6 +110,35 @@ refresh_token.refresh_access_token()
 
 # Authenticate Spotify
 sp = authenticate_spotify()
+
+# Timer variables
+current_time = 800  # Default start time in seconds
+countdown_running = True
+
+def update_timer_file():
+    with open('song_timer.txt', 'w') as f:
+        f.write(str(current_time))  # Write the current time to the file
+
+def start_count():
+    global current_time, countdown_running
+    print("Countdown started...")
+    while current_time > 0 and countdown_running:
+        formatted_time = format_time(current_time)  # Format the time
+        print(f"Current countdown: {formatted_time}")  # Display countdown
+        update_timer_file()  # Update the txt file with the current countdown
+        time.sleep(1)  # Wait for 1 second
+        current_time -= 1
+
+    if current_time <= 0:
+        print("Countdown finished.")
+
+def add_time_to_count(song_length):
+    global current_time
+    current_time += song_length  # Add song length to current time
+
+# Start the countdown in a separate thread
+countdown_thread = threading.Thread(target=start_count)
+countdown_thread.start()
 
 # Event for handling bit redemptions
 @client.event()
@@ -160,6 +202,12 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
             "priority": priority,
             "length": song_length  # Add the length to the user profile
         }
+
+        # Add the song length to the current countdown
+        add_time_to_count(song_length)
+
+        # Export updated profiles to JSON
+        export_to_json()
 
 async def main():
     # Define the topics to subscribe to
