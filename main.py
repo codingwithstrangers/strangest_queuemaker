@@ -101,6 +101,7 @@ users_profiles = {}
 user_token = USER_TOKEN
 oauth_token = CLIENT_ID
 broadcaster_id = int(BROADCASTER_ID)
+broadcast_name = CHANNEL_NAME
 
 client = twitchio.Client(token=user_token)
 client.pubsub = pubsub.PubSubPool(client)
@@ -208,6 +209,10 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
 
         # Export updated profiles to JSON
         export_to_json()
+
+        # Adding  commands to let bit user know song was added
+        channel = client.get_channel(broadcast_name)
+        await channel.send(f"coding32Newheart @{user_name}, your request has been added, thanks for the support!")
 
 async def main():
     # Define the topics to subscribe to
