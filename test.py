@@ -56,8 +56,9 @@ class SongTimer:
         self.current_time += song_length  # Add song length to current time
 
     def format_time(self, seconds):
-        minutes, seconds = divmod(seconds, 60)  # Convert total seconds to minutes and seconds
-        return f"{minutes:02}:{seconds:02}"  # Return formatted string
+        hours, seconds = divmod(seconds, 3600)  # Convert seconds to hours and remaining seconds
+        minutes, seconds = divmod(seconds, 60)  # Convert remaining seconds to minutes and seconds
+        return f"{int(hours)} hours, {int(minutes)} minutes, and {int(seconds)} seconds" 
 
     def reset_timer(self, new_time):
         self.current_time = new_time  # Reset the timer to a new value
@@ -76,7 +77,7 @@ test_users_profiles = {
     "TestUser1": {
         "amount": 500,  # Mock bit donation
         "time": "2024-10-08 14:30:00",
-        "message": "I want to hear CWS_111",
+        "message": "I want to hear CWS_40",
         "cws_number": "cws_175",
         "song": "Castles Made of Sand",
         "artist": "Jimi Hendrix",
@@ -153,7 +154,7 @@ def process_mock_donation(user_profile):
                 }
                 song_timer.add_time_to_count(length)  # Add song length to the timer
             else:
-                print(f"Hey {user_name}, get they money up not they funny up.")
+                print(f"Hey {user_name}, get yea money up not yea funny up.")
 
         # If the CWS key was not found in either dictionary
         else:

@@ -1,10 +1,102 @@
 [
     {
-        "user_name": "TestUser",
-        "song": "Planetary (GO!)",
+        "user_name": "User1",
+        "cws_number": "CWS_130",
+        "artist": "Aerosmith",
+        "song": "Walk This Way",
+        "amount": 1000,
+        "priority": true,
+        "cws_source": "regular",
+        "length_mins": 215  
+    },
+    {
+        "user_name": "User2",
+        "cws_number": "CWS_170",
+        "artist": "Alice Cooper",
+        "song": "No More Mr. Nice Guy",
         "amount": 500,
         "priority": true,
+        "cws_source": "regular",
+        "length_mins": 230  
+    },
+    {
+        "user_name": "User3",
+        "cws_number": "CWS_172",
+        "artist": "Arctic Monkeys",
+        "song": "R U Mine?",
+        "amount": 700,
+        "priority": true,
         "cws_source": "dlc",
-        "length_mins": 4.112666666666667
+        "length_mins": 180  
+    },
+    {
+        "user_name": "User10",
+        "cws_number": "CWS_95",
+        "artist": "Mastodon",
+        "song": "Black Tongue",
+        "amount": 800,
+        "priority": true,
+        "cws_source": "dlc",
+        "length_mins": 240  
+    },
+    {
+        "user_name": "User4",
+        "cws_number": "CWS_169",
+        "artist": "White Zombie",
+        "song": "Thunder Kiss '65",
+        "amount": 200,
+        "priority": false,
+        "cws_source": "regular",
+        "length_mins": 221  
+    },
+    {
+        "user_name": "User5",
+        "cws_number": "CWS_171",
+        "artist": "Alice in Chains",
+        "song": "Stone",
+        "amount": 400,
+        "priority": false,
+        "cws_source": "dlc",
+        "length_mins": 262  
+    },
+    {
+        "user_name": "User6",
+        "cws_number": "CWS_173",
+        "artist": "Avenged Sevenfold",
+        "song": "Bat Country",
+        "amount": 350,
+        "priority": false,
+        "cws_source": "regular",
+        "length_mins": 310  
+    },
+    {
+        "user_name": "User7",
+        "cws_number": "CWS_92",
+        "artist": "Maroon 5",
+        "song": "This Love",
+        "amount": 300,
+        "priority": false,
+        "cws_source": "regular",
+        "length_mins": 202  
+    },
+    {
+        "user_name": "User8",
+        "cws_number": "CWS_93",
+        "artist": "Maroon 5",
+        "song": "Misery",
+        "amount": 450,
+        "priority": false,
+        "cws_source": "dlc",
+        "length_mins": 195  
+    },
+    {
+        "user_name": "User9",
+        "cws_number": "CWS_94",
+        "artist": "Maroon 5",
+        "song": "Harder to Breathe",
+        "amount": 100,
+        "priority": false,
+        "cws_source": "regular",
+        "length_mins": 165  
     }
 ]

@@ -1,35 +1,17 @@
-*{
+* {
     border: 1px green solid;
     margin: 0;
     padding: 0;
-    
 }
 
-#grid_container {
-    display: grid;
-    grid-template-areas: 
-        "priority"
-        "regular"
-       ;
-    grid-template-rows: auto 1fr 1fr auto;
-    height: 60vh;
-    width: 40vh;
-   padding: 5px;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-
-
-#container{
+#container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    /* justify-content: ; */
 }
-#title{
+
+#title {
     display: flex;
     align-items: center;
     text-align: center;
@@ -38,14 +20,65 @@
     justify-content: center;
 }
 
-/* box setup */
-#priority_cws, #regular_cws {
+#grid_container {
     display: flex;
-    padding: 3px 6px 3px 3px;
+    flex-direction: column;
+    height: 60vh; /* Height of the container */
+    width: 50vh; /* Width of the container */
+    overflow-y: hidden; /* Hide scrollbar */
+    position: relative; /* Set position for child elements */
+    padding: 5px;
+}
+
+/* Continuous scrolling animation */
+@keyframes scroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%); /* Adjust based on total height */
+    }
+}
+
+/* Box setup */
+.priority_cws, .regular_cws {
+    display: flex;
+    padding: 5px 10px; /* Increased padding for better visibility */
     align-items: center;
-    /* margin-right: 5px; */
     justify-content: space-evenly;
     gap: 0.5px;
     width: 100%;
+    transition: opacity 0.3s; /* Smooth transition */
+    font-size: 14px; /* Adjust font size to fit */
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+}
 
+.priority_cws {
+    background-color: gold; /* Priority background */
+}
+
+.regular_cws {
+    background-color: blue; /* Regular background */
+}
+
+/* Make scrollbar invisible */
+#grid_container:hover {
+    animation-play-state: paused; /* Pause scrolling on hover */
+}
+
+#grid_container .song {
+    opacity: 1; /* Default opacity */
+}
+
+#grid_container .completed {
+    opacity: 0.5; /* Completed songs are greyed out */
+}
+
+/* Adjust scrolling speed */
+.wrapper {
+    display: flex; /* Use flex to align items horizontally */
+    flex-direction: column; /* Stack items vertically */
+    animation: scroll 400s linear infinite; /* Adjust duration for slower scroll */
 }
