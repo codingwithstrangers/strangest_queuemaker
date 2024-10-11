@@ -1,4 +1,3 @@
-// Function to fetch user profiles from a JSON file
 async function fetchUserProfiles() {
     try {
         const response = await fetch('user_profiles.json');
@@ -12,7 +11,6 @@ async function fetchUserProfiles() {
     }
 }
 
-// Function to create song list items
 function createSongList(userProfiles) {
     const songQueue = document.getElementById('songQueue');
 
@@ -30,53 +28,67 @@ function createSongList(userProfiles) {
             listItem.classList.add(profile.cws_source);
         }
 
-        // Truncate the song title if it exceeds 25 characters
-        const songTitle = profile.song.length > 15 ? profile.song.substring(0, 25) + '...' : profile.song;
-
         // Create a count number element
         const countNumber = document.createElement('span');
+        countNumber.classList.add('count-number'); // Add this line
         countNumber.textContent = index + 1; // Display the count starting from 1
-        countNumber.style.width = '30px'; // Set a fixed width for alignment
-        countNumber.style.textAlign = 'left'; // Ensure text is left-aligned
-        countNumber.style.display = 'inline-block'; // Keep it inline with checkbox
 
-        // Create the checkbox
+        // Create the custom checkbox wrapper
+        const checkboxWrapper = document.createElement('div');
+        checkboxWrapper.className = 'checkbox-wrapper-10';
+
+        // Create the checkbox input
         const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
+        checkbox.className = 'tgl tgl-flip';
+        checkbox.id = `cb${index}`;
+        checkbox.type = 'checkbox'; // Checkbox input
+
+        // Create the label for the checkbox
+        const label = document.createElement('label');
+        label.className = 'tgl-btn';
+        label.setAttribute('data-tg-off', 'on Deck');
+        label.setAttribute('data-tg-on', 'Done!');
+        label.setAttribute('for', `cb${index}`); // Link label to checkbox
+
+        // Append the checkbox and label to the wrapper
+        checkboxWrapper.appendChild(checkbox);
+        checkboxWrapper.appendChild(label);
+
+        // Add checkbox event listener for grey-out effect
         checkbox.addEventListener('change', () => {
-            // Handle the checked state
+            // Check if the checkbox is checked
             if (checkbox.checked) {
-                // Add 'checked' class to listItem
-                listItem.classList.add('checked');
+                listItem.classList.add('checked'); // Greys out row
+                listItem.classList.add('strikethrough'); // Add strikethrough effect
+                listItem.classList.remove('priority'); // Remove priority class
 
-                // Remove priority class to enforce grey background
-                listItem.classList.remove('priority');
+                // Additionally remove specific source classes
+                listItem.classList.remove('dlc');
+                listItem.classList.remove('regular');
             } else {
-                // Remove 'checked' class when unchecked
-                listItem.classList.remove('checked');
+                listItem.classList.remove('checked'); // Remove grey
+                listItem.classList.remove('strikethrough'); // Remove strikethrough effect
 
-                // Re-add priority class if needed
+                // Check if it was priority or regular
                 if (profile.priority) {
-                    listItem.classList.add('priority');
+                    listItem.classList.add('priority'); // Re-add priority class
+                } else {
+                    listItem.classList.add(profile.cws_source); // Re-add source class
                 }
             }
         });
 
-        // Create the content
-        const content = `${profile.user_name} - ${songTitle} - $${profile.amount} - ${profile.length_mins} mins`;
-
-        // Append elements to the list item
+        // Create the content with a character limit for song titles
+        const trimmedSong = profile.song.length > 15 ? profile.song.substring(0, 15) + '...' : profile.song; // Limit song title to 16 characters
+        const content = `@${profile.user_name} - ${trimmedSong} - ${profile.amount} Bits - ${profile.length_mins} mins`;
+        
         listItem.appendChild(countNumber);
-        listItem.appendChild(checkbox);
-        listItem.appendChild(document.createTextNode(content)); // Append content after the count number and checkbox
+        listItem.appendChild(checkboxWrapper); // Append checkbox wrapper
+        listItem.appendChild(document.createTextNode(content)); // Append content
 
         // Append to the song queue
         songQueue.appendChild(listItem);
     });
-
-    // Duplicate the song list for endless scrolling
-    const clone = songQueue.cloneNode(true);
-    songQueue.parentElement.appendChild(clone); // Append the cloned list
 }
 
 // Fetch user profiles and create the song list
