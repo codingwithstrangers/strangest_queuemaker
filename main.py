@@ -98,7 +98,7 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
     print(f"Bits received: {event.bits_used} from {event.user.name}")
 
     # Check if message contains CWS keys
-    cws_number = "175"
+    cws_number = ""
     song_info = {}
     dict_source = None
     # Make sure sentnce is a string 

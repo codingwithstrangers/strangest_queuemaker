@@ -1,14 +1,10 @@
-{
-    "TestUser": {
-        "amount": 100,
-        "time": "2024-10-08 14:30:00",
-        "message": "I want to hear CWS_173",
-        "cws_number": "cws_173",
-        "song": "Bat Country",
-        "artist": "Avenged Sevenfold",
-        "cws_source": "regular",
-        "cws": true,
-        "priority": false,
-        "length": 311.813
+[
+    {
+        "user_name": "TestUser",
+        "song": "Planetary (GO!)",
+        "amount": 500,
+        "priority": true,
+        "cws_source": "dlc",
+        "length_mins": 4.112666666666667
     }
-}
+]

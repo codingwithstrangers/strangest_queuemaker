@@ -4,263 +4,191 @@ from twitchio.ext import commands, pubsub
 from configuration import *
 import json
 from datetime import datetime
+import re
 import spotipy
 import refresh_token
 from spotipy.oauth2 import SpotifyClientCredentials
 from cws_songs import regular_cws_songs, dlc_cws_songs
 import threading
-import time  # Importing the time module
+import time
 
 # Setup Spotify API authentication
 client_id = SPOTIFY_CLIENT_ID
 client_secret = SPOTIFY_CLIENT_SECRET
 
+credentials = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+sp = spotipy.Spotify(client_credentials_manager=credentials)
 
-
-
-
-def authenticate_spotify():
-    credentials = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-    sp = spotipy.Spotify(client_credentials_manager=credentials)
-    print("The music is in")  # Print statement when connected
-    return sp
-
-def get_song_length(sp, artist, song):
-    results = sp.search(q=f'artist:{artist} track:{song}', type='track')
+def get_song_length(song_name, artist_name):
+    """Fetch the song length from Spotify based on song name and artist."""
+    query = f"track:{song_name} artist:{artist_name}"
+    results = sp.search(q=query, type='track', limit=1)
+    
     if results['tracks']['items']:
-        track = results['tracks']['items'][0]  # Get the first matching track
-        return track['duration_ms'] / 1000  # Return length in seconds
-    return 191  # Return default length of 3 minutes and 11 seconds
+        track = results['tracks']['items'][0]
+        return track['duration_ms'] / 1000  # Duration in seconds
+    return 180  # Default to 3 minutes (180 seconds) if not found
 
-def format_time(seconds):
-    """Convert seconds to H:MM:SS format."""
-    hours, remainder = divmod(seconds, 3600)
-    minutes, seconds = divmod(remainder, 60)
-    return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
+class SongTimer:
+    def __init__(self, start_time=5800):
+        self.current_time = start_time  # Timer starts at a default value (5800 seconds)
+        self.countdown_running = False  # Control the countdown
+        self.timer_thread = None  # Placeholder for the timer thread
 
-# Function to export sorted user profiles to JSON
-def export_to_json():
-    # Sort user profiles by priority (True comes before False), maintaining the order of entry for each group
-    sorted_profiles = {user: profile for user, profile in sorted(users_profiles.items(), key=lambda item: (not item[1]['priority'], item[1]['time']))}
+    def update_timer_file(self):
+        with open('song_timer.txt', 'w') as f:
+            f.write(str(self.current_time))  # Write the current time to the file
 
-    with open('user_profiles.json', 'w') as f:
-        json.dump(sorted_profiles, f, indent=4)  # Export sorted profiles to JSON
+    def start_count(self):
+        self.countdown_running = True
+        print("Countdown started...")
+        while self.current_time > 0 and self.countdown_running:
+            formatted_time = self.format_time(self.current_time)  # Format the time
+            print(f"Current countdown: {formatted_time}")  # Display countdown
+            self.update_timer_file()  # Update the txt file with the current countdown
+            time.sleep(1)  # Wait for 1 second
+            self.current_time -= 1
 
-# Dictionary to store user profiles
-users_profiles = {}
+        if self.current_time <= 0:
+            print("Countdown finished.")
 
+    def add_time_to_count(self, song_length):
+        self.current_time += song_length  # Add song length to current time
 
-# Authenticate Spotify
-sp = authenticate_spotify()
+    def format_time(self, seconds):
+        minutes, seconds = divmod(seconds, 60)  # Convert total seconds to minutes and seconds
+        return f"{minutes:02}:{seconds:02}"  # Return formatted string
 
-# Timer variables
-current_time = 5800  # Default start time in seconds
-countdown_running = True
+    def reset_timer(self, new_time):
+        self.current_time = new_time  # Reset the timer to a new value
 
-def update_timer_file():
-    with open('song_timer.txt', 'w') as f:
-        f.write(str(current_time))  # Write the current time to the file
+    def start_timer(self):
+        if not self.timer_thread or not self.timer_thread.is_alive():
+            self.timer_thread = threading.Thread(target=self.start_count)
+            self.timer_thread.start()  # Start the countdown in a separate thread
 
-def start_count():
-    global current_time, countdown_running
-    print("Countdown started...")
-    while current_time > 0 and countdown_running:
-        formatted_time = format_time(current_time)  # Format the time
-        print(f"Current countdown: {formatted_time}")  # Display countdown
-        update_timer_file()  # Update the txt file with the current countdown
-        time.sleep(1)  # Wait for 1 second
-        current_time -= 1
+# Initialize the SongTimer
+song_timer = SongTimer()  # Create an instance of SongTimer
+song_timer.start_timer()  # Start the countdown timer
 
-    if current_time <= 0:
-        print("Countdown finished.")
-
-def add_time_to_count(song_length):
-    global current_time
-    current_time += song_length  # Add song length to current time
-
-# Start the countdown in a separate thread
-countdown_thread = threading.Thread(target=start_count)
-countdown_thread.start()
-
-# Event for handling bit redemptions
+# Mock user profile
 test_users_profiles = {
     "TestUser1": {
-        "amount": 300,  # Mock bit donation
+        "amount": 500,  # Mock bit donation
         "time": "2024-10-08 14:30:00",
-        "message": "I want to hear CWS_31",
+        "message": "I want to hear CWS_111",
         "cws_number": "cws_175",
         "song": "Castles Made of Sand",
         "artist": "Jimi Hendrix",
         "cws_source": "regular",  # Could be "regular" or "dlc"
-        "cws": None,
         "priority": None,
         "length": 191  # Song length in seconds
-    }}
+    }
+}
+
+user_queue = {}
+
 def process_mock_donation(user_profile):
     user_name = user_profile.get("user_name", "TestUser")
-    amount = user_profile.get("amount", 0)  # Amount of bits donated
+    amount = user_profile.get("amount", 0)
     time = user_profile.get("time", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    message = user_profile.get("message", "No message")
-    print(f"Bits received: {amount} from {user_name}")
-
-    # Check if message contains CWS keys
-    cws_number = "175"
-    song_info = {}
-    dict_source = None
-    # Make sure sentnce is a string 
-    if isinstance(message,str):
-        message_lower = message.lower()
-    else:
-        message_lower = ""
+    message = user_profile.get("message", "")
     
-      # Convert message to lowercase
+    # Check if message contains a CWS key (case-insensitive)
+    match = re.search(r'cws_\d+', message, re.IGNORECASE)
+    if match:
+        cws_number = match.group().upper()  # Convert to uppercase for dictionary match
+        print(f"Extracted CWS key: {cws_number}")
 
-    # Check for CWS in regular songs
-    for key in regular_cws_songs.keys():
-        if key.lower() in message_lower:
-            song_info = regular_cws_songs[key]
-            cws_number = key.lower()
+        # Check if the key exists in the DLC songs dictionary
+        if cws_number in dlc_cws_songs:
+            dict_source = "dlc"
+            song_info = {
+                "song": dlc_cws_songs[cws_number][1],
+                "artist": dlc_cws_songs[cws_number][0]
+            }
+            # DLC songs require at least 300 bits, 500 or more for priority
+            # Get song length from Spotify
+            length = get_song_length(song_info["song"], song_info["artist"])
+            if amount >= 300:
+                priority = amount >= 500  # True if 500 bits or more, otherwise False
+                print(f"Adding {cws_number} (DLC) to user queue. Priority: {priority}")
+                # Add to user_queue
+                user_queue[user_name] = {
+                    "amount": amount,
+                    "time": time,
+                    "message": message,
+                    "cws_number": cws_number,
+                    "song": song_info["song"],
+                    "artist": song_info["artist"],
+                    "cws_source": dict_source,
+                    "priority": priority,
+                    "length": length,
+                }
+                song_timer.add_time_to_count(length)  # Add song length to the timer
+            elif 100 <= amount < 300:
+                print(f"Hey {user_name}, you might want to try a regular song for that donation.")
+
+        # Check if the key exists in the regular songs dictionary
+        elif cws_number in regular_cws_songs:
             dict_source = "regular"
-            print('Song was Found')
-            break  
-        
+            song_info = regular_cws_songs[cws_number]
+            # Get song length from Spotify
+            length = get_song_length(song_info["song"], song_info["artist"])
+            # Regular songs require at least 100 bits, 500 or more for priority
+            if amount >= 100:
+                priority = amount >= 500  # True if 500 bits or more, otherwise False
+                print(f"Adding {cws_number} (Regular) to user queue. Priority: {priority}")
+                # Add to user_queue
+                user_queue[user_name] = {
+                    "amount": amount,
+                    "time": time,
+                    "message": message,
+                    "cws_number": cws_number,
+                    "song": song_info["song"],
+                    "artist": song_info["artist"],
+                    "cws_source": dict_source,
+                    "priority": priority,
+                    "length": length,
+                }
+                song_timer.add_time_to_count(length)  # Add song length to the timer
+            else:
+                print(f"Hey {user_name}, get they money up not they funny up.")
+
+        # If the CWS key was not found in either dictionary
         else:
-            print('Regular songs checked not found')
-
-    print(key)
-    print(cws_number)
-
-    # Check for CWS in DLC songs if not found in regular
-    if not cws_number:
-        for key in dlc_cws_songs.keys():
-            if key.lower() in message_lower:
-                song_info = dlc_cws_songs[key]
-                cws_number = key.lower()
-                dict_source = "dlc"
-                print('Song was Found')
-            break  
-        
-        else:
-            print('Regular songs checked not found')
-            
-    print(key)
-    print(cws_number)
-   
-    if cws_number:
-        # Get song length, default to 191 seconds if not found
-        song_length = get_song_length(sp, song_info["artist"], song_info["song"])
-
-        # Create user profile based on amount and song source
-        if dict_source == "regular" and amount < 1:
-            return  # Don't create profile for regular song under 100 bits
-        elif 3 <= amount < 5:
-            priority = False  # Less than 500, priority is false
-            if dict_source == "regular":
-                return  # Skip if regular song under 100 bits
-        elif amount >= 500:
-            priority = True  # Priority for 500 bits or more
-        else:
-            priority = False  # Default priority for other cases
-        print('song checked')
-
-        # Construct user profile
-        users_profiles[user_name] = {
-            "amount": amount,
-            "time": time,
-            "message": message,
-            "cws_number": cws_number,
-            "song": song_info["song"],
-            "artist": song_info["artist"],
-            "cws_source": dict_source,
-            "cws": True,
-            "priority": priority,
-            "length": song_length  # Add the length to the user profile
-        }
-
-        # Add the song length to the current countdown
-        add_time_to_count(song_length)
-
-        # Export updated profiles to JSON
-        export_to_json()
-
-        # Adding  commands to let bit user know song was added
-        print('ish happened and we are loving it ')
-def process_mock_donation(user_profile):
-    user_name = user_profile.get("user_name", "TestUser")
-    amount = user_profile.get("amount", 0)  # Amount of bits donated
-    time = user_profile.get("time", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    message = user_profile.get("message", "No message")
+            print(f"{cws_number} not found in either dictionary.")
     
-    # Check if message contains CWS keys
-    cws_number = ""
-    song_info = {}
-    dict_source = None
-    
-    # Make sure the message is a string and convert to lowercase
-    if isinstance(message, str):
-        message_lower = message.lower()
+    # No CWS key in the message
     else:
-        message_lower = ""
+        print(f"No CWS number found in the message: {message}")
 
-    # Check for CWS in regular songs
-    for key in regular_cws_songs.keys():
-        if key.lower() in message_lower:
-            song_info = regular_cws_songs[key]
-            cws_number = key.lower()
-            dict_source = "regular"
-            print(f"Song {song_info['song']} found in regular CWS songs.")
-            break
-    else:
-        # Check for CWS in DLC songs if not found in regular
-        for key, value in dlc_cws_songs.items():
-            if key.lower() in message_lower:
-                if isinstance(value, dict):
-                    song_info = dlc_cws_songs[key]
-                    cws_number = key.lower()
-                    dict_source = "dlc"
-                    print(song_info)
-                    # print(f"Song {song_info['song']} found in DLC CWS songs.")
-                    break
+    # Update user_profiles.json
+    update_user_profiles(user_queue)
 
-    if cws_number:
-        # Get song length, default to 191 seconds if not found
-        song_length = get_song_length(sp, song_info["artist"], song_info["song"])
+    return user_queue
 
-        # Create user profile based on amount and song source
-        if dict_source == "regular" and amount < 100:
-            print(f"Skipping regular CWS song for {user_name} due to insufficient bits.")
-            return  # Don't create profile for regular song under 100 bits
-        elif 300 <= amount < 500 and dict_source == "regular":
-            print(f"Skipping {user_name}'s request for regular song under 500 bits.")
-            return  # Skip if regular song and under 500 bits
-        elif amount >= 500:
-            priority = True  # Priority for 500 bits or more
-        else:
-            priority = False  # Default priority for other cases
+def update_user_profiles(user_queue):
+    """Update the user_profiles.json file based on current user queue."""
+    user_profiles = []
 
-        # Construct user profile
-        users_profiles[user_name] = {
-            "amount": amount,
-            "time": time,
-            "message": message,
-            "cws_number": cws_number,
-            "song": song_info["song"],
-            "artist": song_info["artist"],
-            "cws_source": dict_source,
-            "cws": True,
-            "priority": priority,
-            "length": song_length  # Add the length to the user profile
-        }
+    for user_name, profile in user_queue.items():
+        user_profiles.append({
+            "user_name": user_name,
+            "song": profile["song"],
+            "amount": profile["amount"],
+            "priority": profile["priority"],
+            "cws_source": profile["cws_source"],
+            "length_mins": profile["length"] / 60  # Convert seconds to minutes
+        })
 
-        # Add the song length to the current countdown
-        add_time_to_count(song_length)
+    # Sort the user profiles
+    user_profiles.sort(key=lambda x: (not x['priority'], x['amount']), reverse=True)
 
-        # Export updated profiles to JSON
-        export_to_json()
+    # Clear the file and write updated profiles
+    with open('user_profiles.json', 'w') as f:
+        json.dump(user_profiles, f, indent=4)  # Save to JSON file
 
-        # Notify in console (you could replace this with a Twitch message if connected)
-        print(f"{user_name}'s request for {song_info['song']} has been added with priority: {priority}")
-
-# Test the function with the test user profiles
-for user_profile in test_users_profiles.values():
-    process_mock_donation(user_profile)
+# Example usage with test user profile
+updated_profile = process_mock_donation(test_users_profiles["TestUser1"])
+print(f"Updated profile: {updated_profile}")
