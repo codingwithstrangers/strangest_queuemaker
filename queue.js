@@ -1,3 +1,10 @@
+let autoScrollEnabled = false; // Track if auto-scrolling is enabled
+let isPaused = false; // Track if scrolling is paused
+let scrollInterval; // Variable to hold the scroll interval
+
+// Check if local storage has data for checkbox states
+const checkboxStates = JSON.parse(localStorage.getItem('checkboxStates')) || {};
+
 async function fetchUserProfiles() {
     try {
         const response = await fetch('user_profiles.json');
@@ -21,16 +28,21 @@ function createSongList(userProfiles) {
         const listItem = document.createElement('li');
         listItem.classList.add('song-item');
 
-        // Add priority or source class for background color
-        if (profile.priority) {
-            listItem.classList.add('priority');
+        // Restore checkbox state from local storage
+        if (checkboxStates[`cb${index}`]) {
+            listItem.classList.add('checked', 'strikethrough');
+            listItem.classList.remove('priority'); // Remove priority class if checked
         } else {
-            listItem.classList.add(profile.cws_source);
+            if (profile.priority) {
+                listItem.classList.add('priority'); // Add priority class if applicable
+            } else {
+                listItem.classList.add(profile.cws_source); // Add source class
+            }
         }
 
         // Create a count number element
         const countNumber = document.createElement('span');
-        countNumber.classList.add('count-number'); // Add this line
+        countNumber.classList.add('count-number');
         countNumber.textContent = index + 1; // Display the count starting from 1
 
         // Create the custom checkbox wrapper
@@ -43,12 +55,15 @@ function createSongList(userProfiles) {
         checkbox.id = `cb${index}`;
         checkbox.type = 'checkbox'; // Checkbox input
 
+        // Set checkbox state based on stored value
+        checkbox.checked = checkboxStates[`cb${index}`] || false;
+
         // Create the label for the checkbox
         const label = document.createElement('label');
         label.className = 'tgl-btn';
         label.setAttribute('data-tg-off', 'on Deck');
         label.setAttribute('data-tg-on', 'Done!');
-        label.setAttribute('for', `cb${index}`); // Link label to checkbox
+        label.setAttribute('for', `cb${index}`);
 
         // Append the checkbox and label to the wrapper
         checkboxWrapper.appendChild(checkbox);
@@ -65,6 +80,9 @@ function createSongList(userProfiles) {
                 // Additionally remove specific source classes
                 listItem.classList.remove('dlc');
                 listItem.classList.remove('regular');
+
+                // Store the checkbox state in local storage
+                checkboxStates[`cb${index}`] = true;
             } else {
                 listItem.classList.remove('checked'); // Remove grey
                 listItem.classList.remove('strikethrough'); // Remove strikethrough effect
@@ -75,13 +93,17 @@ function createSongList(userProfiles) {
                 } else {
                     listItem.classList.add(profile.cws_source); // Re-add source class
                 }
+
+                // Store the checkbox state in local storage
+                checkboxStates[`cb${index}`] = false;
             }
+            localStorage.setItem('checkboxStates', JSON.stringify(checkboxStates)); // Update local storage
         });
 
         // Create the content with a character limit for song titles
-        const trimmedSong = profile.song.length > 15 ? profile.song.substring(0, 15) + '...' : profile.song; // Limit song title to 16 characters
+        const trimmedSong = profile.song.length > 15 ? profile.song.substring(0, 15) + '...' : profile.song;
         const content = `@${profile.user_name} - ${trimmedSong} - ${profile.amount} Bits - ${profile.length_mins} mins`;
-        
+
         listItem.appendChild(countNumber);
         listItem.appendChild(checkboxWrapper); // Append checkbox wrapper
         listItem.appendChild(document.createTextNode(content)); // Append content
@@ -89,7 +111,42 @@ function createSongList(userProfiles) {
         // Append to the song queue
         songQueue.appendChild(listItem);
     });
+
+    // Check the number of users to enable auto-scroll
+    if (userProfiles.length >= 7) {
+        enableAutoScroll();
+    }
 }
+
+function enableAutoScroll() {
+    if (autoScrollEnabled) return; // Prevent multiple intervals
+
+    autoScrollEnabled = true;
+
+    // Start the auto-scroll interval
+    scrollInterval = setInterval(() => {
+        if (!isPaused) {
+            const songQueue = document.getElementById('songQueue');
+            const firstChild = songQueue.firstElementChild;
+
+            if (firstChild) {
+                // Move the first child to the bottom of the list
+                songQueue.appendChild(firstChild);
+            }
+        }
+    }, 100); // Adjust the interval duration as needed
+}
+
+// Pause auto-scroll on hover
+const scrollContainer = document.querySelector('.scroll-container');
+scrollContainer.addEventListener('mouseenter', () => {
+    isPaused = true; // Set paused state to true
+});
+
+scrollContainer.addEventListener('mouseleave', () => {
+    isPaused = false; // Reset paused state to false
+});
 
 // Fetch user profiles and create the song list
 fetchUserProfiles();
+
