@@ -1,65 +1,83 @@
-// Function to fetch songs and add them to the grid container
-function fetchSongsAndAddToGrid() {
-    fetch('user_profiles.json') // Adjust the path if necessary
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const songs = Object.entries(data).map(([user, songData]) => ({
-                user,
-                song: songData.song,
-                bits: songData.priority ? 'High Priority' : 'Regular', // Customize bits display as needed
-                type: songData.priority ? 'priority' : 'regular',
-            }));
-            addSongsToGrid(songs); // Pass the songs to your grid function
-        })
-        .catch(error => console.error('Error loading the JSON file:', error));
+// Function to fetch user profiles from a JSON file
+async function fetchUserProfiles() {
+    try {
+        const response = await fetch('user_profiles.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const userProfiles = await response.json();
+        createSongList(userProfiles); // Call function to create song list with fetched data
+    } catch (error) {
+        console.error('Error fetching user profiles:', error);
+    }
 }
 
-// Function to add songs to the grid container
-function addSongsToGrid(songs) {
-    const gridContainer = document.getElementById("grid_container");
+// Function to create song list items
+function createSongList(userProfiles) {
+    const songQueue = document.getElementById('songQueue');
 
-    // Create a wrapper div for the scrolling effect
-    const wrapper = document.createElement('div');
-    wrapper.style.height = '100%';
-    wrapper.style.overflowY = 'hidden'; // Hide overflow
-    wrapper.style.position = 'absolute';
-    wrapper.style.width = '100%';
-    gridContainer.appendChild(wrapper);
+    // Clear any existing list items
+    songQueue.innerHTML = '';
 
-    songs.forEach(song => {
-        const songElement = document.createElement("div");
-        songElement.className = song.type === "priority" ? "priority_cws" : "regular_cws";
-        songElement.innerHTML = `
-            <input type="checkbox" class="checkbox_done">
-            <div id="user_name">${song.user}</div>
-            <div id="song_name">${song.song.length > 25 ? song.song.slice(0, 25) + '...' : song.song}</div>
-            <div id="bit_amount">${song.bits}</div>
-        `;
-        wrapper.appendChild(songElement);
+    userProfiles.forEach((profile, index) => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('song-item');
+
+        // Add priority or source class for background color
+        if (profile.priority) {
+            listItem.classList.add('priority');
+        } else {
+            listItem.classList.add(profile.cws_source);
+        }
+
+        // Truncate the song title if it exceeds 25 characters
+        const songTitle = profile.song.length > 15 ? profile.song.substring(0, 25) + '...' : profile.song;
+
+        // Create a count number element
+        const countNumber = document.createElement('span');
+        countNumber.textContent = index + 1; // Display the count starting from 1
+        countNumber.style.width = '30px'; // Set a fixed width for alignment
+        countNumber.style.textAlign = 'left'; // Ensure text is left-aligned
+        countNumber.style.display = 'inline-block'; // Keep it inline with checkbox
+
+        // Create the checkbox
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('change', () => {
+            // Handle the checked state
+            if (checkbox.checked) {
+                // Add 'checked' class to listItem
+                listItem.classList.add('checked');
+
+                // Remove priority class to enforce grey background
+                listItem.classList.remove('priority');
+            } else {
+                // Remove 'checked' class when unchecked
+                listItem.classList.remove('checked');
+
+                // Re-add priority class if needed
+                if (profile.priority) {
+                    listItem.classList.add('priority');
+                }
+            }
+        });
+
+        // Create the content
+        const content = `${profile.user_name} - ${songTitle} - $${profile.amount} - ${profile.length_mins} mins`;
+
+        // Append elements to the list item
+        listItem.appendChild(countNumber);
+        listItem.appendChild(checkbox);
+        listItem.appendChild(document.createTextNode(content)); // Append content after the count number and checkbox
+
+        // Append to the song queue
+        songQueue.appendChild(listItem);
     });
 
-    // Start scrolling the wrapper
-    let scrollHeight = wrapper.scrollHeight; // Total height of the items
-    let currentScroll = 0;
-
-    const scrollSpeed = 1; // Change this for speed
-
-    function scroll() {
-        currentScroll += scrollSpeed; // Move scroll position
-        if (currentScroll > scrollHeight) {
-            currentScroll = 0; // Reset to the start
-        }
-        wrapper.style.transform = `translateY(-${currentScroll}px)`; // Scroll effect
-        requestAnimationFrame(scroll); // Request next frame
-    }
-
-    scroll(); // Start scrolling
+    // Duplicate the song list for endless scrolling
+    const clone = songQueue.cloneNode(true);
+    songQueue.parentElement.appendChild(clone); // Append the cloned list
 }
 
-// Call the function to fetch songs and populate the grid
-fetchSongsAndAddToGrid();
+// Fetch user profiles and create the song list
+fetchUserProfiles();

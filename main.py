@@ -162,6 +162,10 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
     # Update user_profiles.json
     update_user_profiles(user_queue)
 
+def convert_length_to_minutes(length_seconds):
+    """Convert length from seconds to minutes."""
+    return length_seconds / 60  # Convert seconds to minutes
+
 def update_user_profiles(user_queue):
     """Update the user_profiles.json file based on current user queue."""
     user_profiles = []
@@ -173,7 +177,7 @@ def update_user_profiles(user_queue):
             "amount": profile["amount"],
             "priority": profile["priority"],
             "cws_source": profile["cws_source"],
-            "length_mins": profile["length"] / 60  # Convert seconds to minutes
+            "length_mins": convert_length_to_minutes(profile["length"])
         })
 
     # Sort the user profiles

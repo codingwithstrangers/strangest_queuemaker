@@ -1,84 +1,198 @@
-* {
-    border: 1px green solid;
+
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    overflow: hidden; /* Hide scrollbars */
 }
 
-#container {
+.container {
+    width: auto; /* Change to auto for responsiveness */
+    max-width: 90%; /* Optional: Limit max width for larger screens */
+    height: auto; /* Change height to auto */
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
+    justify-content: flex-start; /* Align items to the top */
+    position: relative;
+    padding: 10px; /* Add some padding */
 }
 
-#title {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    padding: 10px;
-    margin-bottom: 10px;
-    justify-content: center;
+h1 {
+    margin: 20px 0;
 }
 
-#grid_container {
-    display: flex;
-    flex-direction: column;
-    height: 60vh; /* Height of the container */
-    width: 50vh; /* Width of the container */
-    overflow-y: hidden; /* Hide scrollbar */
-    position: relative; /* Set position for child elements */
-    padding: 5px;
+.scroll-container {
+    width: auto; /* Change to auto for responsiveness */
+    max-width: 100%; /* Limit to 100% of the container */
+    height: 60vh; /* Full height of the viewport */
+    overflow: hidden;
+    border: 2px solid #000;
+    border-radius: 5px;
+    position: relative;
+    font-size: x-large;
+    text-wrap-mode: nowrap;
 }
 
-/* Continuous scrolling animation */
+.song-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: auto; /* Fill the scroll container */
+    animation: scroll 10s linear infinite; /* Smooth scrolling animation */
+}
+
+.song-item {
+    display: flex; /* Use flexbox for layout */
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center; /* Center items vertically */
+    padding: 10px 15px; /* Add padding for better spacing */
+    margin-bottom: 3px; /* Add gap between rows */
+    transition: background-color 0.3s; /* Smooth background transition */
+    border-radius: 4px; /* Optional: Round the corners for a smoother look */
+}
+
+/* Style for the count number */
+.song-item span {
+    margin-right: 10px; /* Space between the count number and checkbox */
+    text-align: left; /* Ensure text is left-aligned */
+    width: 30px; /* Maintain a fixed width for alignment */
+}
+
+.song-item:nth-child(odd) {
+    background-color: #f0f0f0; /* Light grey for odd items */
+}
+
+.song-item:nth-child(even) {
+    background-color: #ffffff; /* White for even items */
+}
+
+.song-item.priority {
+    background-color: gold; /* Gold for priority songs */
+}
+
+.song-item.regular {
+    background-color: blue; /* Blue for regular songs */
+}
+
+.song-item.dlc {
+    background-color: green; /* Green for DLC songs */
+}
+
+.song-item.checked {
+    background-color: grey; /* Grey when checked */
+}
+
 @keyframes scroll {
-    0% {
-        transform: translateY(0);
+    0% {body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Hide scrollbars */
+    }
+    
+    .container {
+        width: auto; /* Change to auto for responsiveness */
+        max-width: 90%; /* Optional: Limit max width for larger screens */
+        height: auto; /* Change height to auto */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start; /* Align items to the top */
+        position: relative;
+        padding: 10px; /* Add some padding */
+    }
+    
+    h1 {
+        margin: 20px 0;
+    }
+    
+    .scroll-container {
+        width: auto; /* Change to auto for responsiveness */
+        max-width: 100%; /* Limit to 100% of the container */
+        height: 60vh; /* Full height of the viewport */
+        overflow: hidden; /* Hide overflow to maintain clean appearance */
+        border: 2px solid #000;
+        border-radius: 5px;
+        position: relative;
+        font-size: x-large;
+    }
+    
+    .song-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        height: auto; /* Adjust height to auto for proper scroll effect */
+        display: flex; /* Use flexbox to stack items */
+        flex-direction: column; /* Stack items vertically */
+        animation: scroll 10s linear infinite; /* Smooth scrolling animation */
+    }
+    
+    .song-item {
+        display: flex; /* Use flexbox for layout */
+        justify-content: flex-start; /* Align items to the left */
+        align-items: center; /* Center items vertically */
+        padding: 10px 15px; /* Add padding for better spacing */
+        margin-bottom: 3px; /* Add gap between rows */
+        transition: background-color 0.3s; /* Smooth background transition */
+        border-radius: 4px; /* Optional: Round the corners for a smoother look */
+    }
+    
+    /* Style for the count number */
+    .song-item span {
+        margin-right: 10px; /* Space between the count number and checkbox */
+        text-align: left; /* Ensure text is left-aligned */
+        width: 30px; /* Maintain a fixed width for alignment */
+    }
+    
+    .song-item:nth-child(odd) {
+        background-color: #f0f0f0; /* Light grey for odd items */
+    }
+    
+    .song-item:nth-child(even) {
+        background-color: #ffffff; /* White for even items */
+    }
+    
+    .song-item.priority {
+        background-color: gold; /* Gold for priority songs */
+    }
+    
+    .song-item.regular {
+        background-color: blue; /* Blue for regular songs */
+    }
+    
+    .song-item.dlc {
+        background-color: green; /* Green for DLC songs */
+    }
+    
+    .song-item.checked {
+        background-color: grey; /* Grey when checked */
+    }
+    
+    @keyframes scroll {
+        0% {
+            transform: translateY(0); /* Start at the original position */
+        }
+        100% {
+            transform: translateY(-100%); /* Scroll to the height of two lists */
+        }
+    }
+    
+    /* Stop scrolling on hover */
+    .scroll-container:hover .song-list {
+        animation-play-state: paused; /* Pause the animation on hover */
+    }
+    
+        transform: translateY(100%);
     }
     100% {
-        transform: translateY(-100%); /* Adjust based on total height */
+        transform: translateY(-100%);
     }
 }
 
-/* Box setup */
-.priority_cws, .regular_cws {
-    display: flex;
-    padding: 5px 10px; /* Increased padding for better visibility */
-    align-items: center;
-    justify-content: space-evenly;
-    gap: 0.5px;
-    width: 100%;
-    transition: opacity 0.3s; /* Smooth transition */
-    font-size: 14px; /* Adjust font size to fit */
-    white-space: nowrap; /* Prevent line breaks */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
-}
 
-.priority_cws {
-    background-color: gold; /* Priority background */
-}
 
-.regular_cws {
-    background-color: blue; /* Regular background */
-}
-
-/* Make scrollbar invisible */
-#grid_container:hover {
-    animation-play-state: paused; /* Pause scrolling on hover */
-}
-
-#grid_container .song {
-    opacity: 1; /* Default opacity */
-}
-
-#grid_container .completed {
-    opacity: 0.5; /* Completed songs are greyed out */
-}
-
-/* Adjust scrolling speed */
-.wrapper {
-    display: flex; /* Use flex to align items horizontally */
-    flex-direction: column; /* Stack items vertically */
-    animation: scroll 400s linear infinite; /* Adjust duration for slower scroll */
+/* Stop scrolling on hover */
+.scroll-container:hover .song-list {
+    animation-play-state: paused;
 }
