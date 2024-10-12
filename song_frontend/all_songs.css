@@ -35,6 +35,7 @@ body {
     max-width: 745px; /* Set a maximum width for the container */
     margin: auto; /* Center the container */
     padding: 25px;
+    
     border: 1px solid #ddd;
     border-radius: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -118,16 +119,21 @@ th {
 }
 
 /* Add scrolling to the tbody for overflow */
+
 tbody {
-    display: block; /* Allow for scrolling */
-    margin-top: 5px;
-    max-height: 500px; /* Set a maximum height */
+    display: block;
+    max-height: 500px; /* Maintain your height */
     overflow-y: auto; /* Enable vertical scrolling */
-    padding: 5px;
-    font-size: x-large; /* Adjust font size */
+    padding: 0; /* Remove padding */
+    font-size: x-large;
     border: black 3px solid;
-    white-space: nowrap; /* Prevent text wrapping */
-    border-radius: 10px;
+    white-space: nowrap;
+    border-radius: 20px;
+}
+
+
+tbody::-webkit-scrollbar {
+display: none;  
 }
 
 tr {

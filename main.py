@@ -43,21 +43,23 @@ class SongTimer:
         self.timer_thread = None  # Placeholder for the timer thread
 
     def update_timer_file(self):
+        formatted_time = self.format_time(self.current_time)  # Format the current time
         with open('song_timer.txt', 'w') as f:
-            f.write(str(self.current_time))  # Write the current time to the file
+            f.write(formatted_time)  # Write the formatted time to the file
 
     def start_count(self):
         self.countdown_running = True
-        print("Countdown started...")
+        print("Countdown started...")  
         while self.current_time > 0 and self.countdown_running:
             formatted_time = self.format_time(self.current_time)  # Format the time
-            print(f"Current countdown: {formatted_time}")  # Display countdown
-            self.update_timer_file()  # Update the txt file with the current countdown
+            # print(f"Current countdown: {formatted_time}")  # Removed terminal output
+            self.update_timer_file()  # Update the txt file with the formatted countdown
             time.sleep(1)  # Wait for 1 second
             self.current_time -= 1
 
         if self.current_time <= 0:
-            print("Countdown finished.")
+            # print("Countdown finished.")  # Removed terminal output
+            pass
 
     def add_time_to_count(self, song_length):
         self.current_time += song_length  # Add song length to current time
@@ -65,7 +67,7 @@ class SongTimer:
     def format_time(self, seconds):
         hours, seconds = divmod(seconds, 3600)  # Convert seconds to hours and remaining seconds
         minutes, seconds = divmod(seconds, 60)  # Convert remaining seconds to minutes and seconds
-        return f"{int(hours)} hours, {int(minutes)} minutes, and {int(seconds)} seconds" 
+        return f"{int(hours)}:{int(minutes)}:{int(seconds)}" 
 
     def reset_timer(self, new_time):
         self.current_time = new_time  # Reset the timer to a new value
@@ -78,7 +80,6 @@ class SongTimer:
 # Initialize the SongTimer
 song_timer = SongTimer()  # Create an instance of SongTimer
 song_timer.start_timer()  # Start the countdown timer
-
 user_queue = {}
 
 # Handle the PubSub Bits event
@@ -184,7 +185,7 @@ def update_user_profiles(user_queue):
     user_profiles.sort(key=lambda x: (not x['priority'], x['amount']), reverse=True)
 
     # Clear the file and write updated profiles
-    with open('user_profiles.json', 'w') as f:
+    with open(r'F:/Coding with Strangers/strangest_queuemaker/queue_frontend/user_profiles.json', 'w') as f:
         json.dump(user_profiles, f, indent=4)  # Save to JSON file
 
 async def main():

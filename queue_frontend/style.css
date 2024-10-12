@@ -44,7 +44,7 @@ h1 {
     border: 5px solid #000000; /* Optional border for the container */
     padding: 10px;
     
-    background: linear-gradient(to bottom, #ffffff, #878c91, #0a0d0e, #0c0c0c);
+    background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #fa9b48 100%);
     border-radius: 30px;
 }
 
@@ -66,11 +66,12 @@ h1 {
     display: flex;
     align-items: center;
     padding: 10px;
+    
     /* font-family: "Poetsen One", sans-serif; */
     font-family: "Bungee Inline", sans-serif;
     font-size: 20px;
     text-wrap-mode: nowrap;
-    border-bottom: 3px solid #334a3b;/* Add bottom border for separation */
+    border-bottom: 3px solid #334a3b;
 }
 
 .song-item.checked {
