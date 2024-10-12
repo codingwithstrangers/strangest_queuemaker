@@ -134,7 +134,7 @@ function enableAutoScroll() {
                 songQueue.appendChild(firstChild);
             }
         }
-    }, 100); // Adjust the interval duration as needed
+    }, 3000); // Adjust the interval duration as needed
 }
 
 // Pause auto-scroll on hover

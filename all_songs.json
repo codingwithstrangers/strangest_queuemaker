@@ -1,0 +1,1179 @@
+{
+    
+        "CWS_1": {
+            "artist": "3 Doors Down",
+            "song": "Kryptonite",
+            "type": "dlc"
+        },
+        "CWS_2": {
+            "artist": "3 Doors Down",
+            "song": "Loser",
+            "type": "dlc"
+        },
+        "CWS_3": {
+            "artist": "3 Doors Down",
+            "song": "When I’m Gone",
+            "type": "dlc"
+        },
+        "CWS_4": {
+            "artist": "Aerosmith",
+            "song": "Dream On",
+            "type": "dlc"
+        },
+        "CWS_5": {
+            "artist": "311",
+            "song": "Amber",
+            "type": "dlc"
+        },
+        "CWS_6": {
+            "artist": "311",
+            "song": "Beautiful Disaster",
+            "type": "dlc"
+        },
+        "CWS_7": {
+            "artist": "311",
+            "song": "Down",
+            "type": "dlc"
+        },
+        "CWS_8": {
+            "artist": "Aerosmith",
+            "song": "Legendary Child",
+            "type": "dlc"
+        },
+        "CWS_9": {
+            "artist": "Aerosmith",
+            "song": "Oh Yeah",
+            "type": "dlc"
+        },
+        "CWS_10": {
+            "artist": "Aerosmith",
+            "song": "Same Old Song And Dance",
+            "type": "dlc"
+        },
+        "CWS_11": {
+            "artist": "Aerosmith",
+            "song": "Sweet Emotion",
+            "type": "dlc"
+        },
+        "CWS_12": {
+            "artist": "AFI",
+            "song": "Totalimmortal",
+            "type": "dlc"
+        },
+        "CWS_13": {
+            "artist": "AFI",
+            "song": "Girl's Not Grey",
+            "type": "dlc"
+        },
+        "CWS_14": {
+            "artist": "AFI",
+            "song": "Miss Murder",
+            "type": "dlc"
+        },
+        "CWS_15": {
+            "artist": "AFI",
+            "song": "Silver And Cold",
+            "type": "dlc"
+        },
+        "CWS_16": {
+            "artist": "Alice in Chains",
+            "song": "Would?",
+            "type": "dlc"
+        },
+        "CWS_17": {
+            "artist": "Alice in Chains",
+            "song": "Man in the Box",
+            "type": "dlc"
+        },
+        "CWS_18": {
+            "artist": "Alice in Chains",
+            "song": "Hollow",
+            "type": "dlc"
+        },
+        "CWS_19": {
+            "artist": "Alice in Chains",
+            "song": "Them Bones",
+            "type": "dlc"
+        },
+        "CWS_20": {
+            "artist": "Alice in Chains",
+            "song": "Check My Brain",
+            "type": "dlc"
+        },
+        "CWS_21": {
+            "artist": "The Allman Brothers Band",
+            "song": "Jessica",
+            "type": "dlc"
+        },
+        "CWS_22": {
+            "artist": "The Allman Brothers Band",
+            "song": "Whipping Post",
+            "type": "dlc"
+        },
+        "CWS_23": {
+            "artist": "The Allman Brothers Band",
+            "song": "Southbound",
+            "type": "dlc"
+        },
+        "CWS_24": {
+            "artist": "Alter Bridge",
+            "song": "Blackbird",
+            "type": "dlc"
+        },
+        "CWS_25": {
+            "artist": "Alter Bridge",
+            "song": "Isolation",
+            "type": "dlc"
+        },
+        "CWS_26": {
+            "artist": "Alter Bridge",
+            "song": "Rise Today",
+            "type": "dlc"
+        },
+        "CWS_27": {
+            "artist": "Alter Bridge",
+            "song": "Ties That Bind",
+            "type": "dlc"
+        },
+        "CWS_28": {
+            "artist": "Avenged Sevenfold",
+            "song": "Beast and the Harlot",
+            "type": "dlc"
+        },
+        "CWS_29": {
+            "artist": "Avenged Sevenfold",
+            "song": "Afterlife",
+            "type": "dlc"
+        },
+        "CWS_30": {
+            "artist": "Avenged Sevenfold",
+            "song": "Nightmare",
+            "type": "dlc"
+        },
+        "CWS_31": {
+            "artist": "B’z",
+            "song": "Juice",
+            "type": "dlc"
+        },
+        "CWS_32": {
+            "artist": "B’z",
+            "song": "Giri Giri Chop",
+            "type": "dlc"
+        },
+        "CWS_33": {
+            "artist": "B’z",
+            "song": "Easy Come, Easy Go!",
+            "type": "dlc"
+        },
+        "CWS_34": {
+            "artist": "The Black Keys",
+            "song": "Just Got to Be",
+            "type": "dlc"
+        },
+        "CWS_35": {
+            "artist": "The Black Keys",
+            "song": "Mind Eraser",
+            "type": "dlc"
+        },
+        "CWS_36": {
+            "artist": "The Black Keys",
+            "song": "Gold on the Ceiling",
+            "type": "dlc"
+        },
+        "CWS_37": {
+            "artist": "Blink-182",
+            "song": "Dammit",
+            "type": "dlc"
+        },
+        "CWS_38": {
+            "artist": "Blink-182",
+            "song": "All the Small Things",
+            "type": "dlc"
+        },
+        "CWS_39": {
+            "artist": "Blink-182",
+            "song": "What’s My Age Again?",
+            "type": "dlc"
+        },
+        "CWS_40": {
+            "artist": "Blondie",
+            "song": "Call Me",
+            "type": "dlc"
+        },
+        "CWS_41": {
+            "artist": "Blue Oyster Cult",
+            "song": "Don't Fear The Reaper",
+            "type": "dlc"
+        },
+        "CWS_42": {
+            "artist": "Blue Oyster Cult",
+            "song": "Godzilla",
+            "type": "dlc"
+        },
+        "CWS_43": {
+            "artist": "Blue Oyster Cult",
+            "song": "Burnin' For You",
+            "type": "dlc"
+        },
+        "CWS_44": {
+            "artist": "Bob Dylan",
+            "song": "Just Like a Woman",
+            "type": "dlc"
+        },
+        "CWS_45": {
+            "artist": "Bob Dylan",
+            "song": "Like a Rolling Stone",
+            "type": "dlc"
+        },
+        "CWS_46": {
+            "artist": "Bob Dylan",
+            "song": "Subterranean Homesick Blues",
+            "type": "dlc"
+        },
+        "CWS_47": {
+            "artist": "Cake",
+            "song": "The Distance",
+            "type": "dlc"
+        },
+        "CWS_48": {
+            "artist": "Cake",
+            "song": "I Will Survive",
+            "type": "dlc"
+        },
+        "CWS_49": {
+            "artist": "Cake",
+            "song": "Never There",
+            "type": "dlc"
+        },
+        "CWS_50": {
+            "artist": "Cake",
+            "song": "Short Skirt/Long Jacket",
+            "type": "dlc"
+        },
+        "CWS_51": {
+            "artist": "Cake",
+            "song": "Stickshifts and Safety Belts",
+            "type": "dlc"
+        },
+        "CWS_52": {
+            "artist": "The Clash",
+            "song": "London Calling",
+            "type": "dlc"
+        },
+        "CWS_53": {
+            "artist": "The Clash",
+            "song": "Guns of Brixton",
+            "type": "dlc"
+        },
+        "CWS_54": {
+            "artist": "The Clash",
+            "song": "Should I Stay or Should I Go",
+            "type": "dlc"
+        },
+        "CWS_55": {
+            "artist": "The Cure",
+            "song": "The End of the World",
+            "type": "dlc"
+        },
+        "CWS_56": {
+            "artist": "The Cure",
+            "song": "Just Like Heaven",
+            "type": "dlc"
+        },
+        "CWS_57": {
+            "artist": "The Cure",
+            "song": "Lovesong",
+            "type": "dlc"
+        },
+        "CWS_58": {
+            "artist": "Disturbed",
+            "song": "Voices",
+            "type": "dlc"
+        },
+        "CWS_59": {
+            "artist": "Disturbed",
+            "song": "Down with the Sickness",
+            "type": "dlc"
+        },
+        "CWS_60": {
+            "artist": "Disturbed",
+            "song": "Asylum",
+            "type": "dlc"
+        },
+        "CWS_61": {
+            "artist": "Fall Out Boy",
+            "song": "America’s Suitehearts",
+            "type": "dlc"
+        },
+        "CWS_62": {
+            "artist": "Fall Out Boy",
+            "song": "Dance, Dance",
+            "type": "dlc"
+        },
+        "CWS_63": {
+            "artist": "Fall Out Boy",
+            "song": "I Don’t Care",
+            "type": "dlc"
+        },
+        "CWS_64": {
+            "artist": "Fall Out Boy",
+            "song": "Sugar, We’re Goin Down",
+            "type": "dlc"
+        },
+        "CWS_65": {
+            "artist": "Fall Out Boy",
+            "song": "Thnks fr the Mmrs",
+            "type": "dlc"
+        },
+        "CWS_66": {
+            "artist": "Foo Fighters",
+            "song": "Best of You",
+            "type": "dlc"
+        },
+        "CWS_67": {
+            "artist": "Foo Fighters",
+            "song": "My Hero",
+            "type": "dlc"
+        },
+        "CWS_68": {
+            "artist": "Foo Fighters",
+            "song": "Times Like These",
+            "type": "dlc"
+        },
+        "CWS_69": {
+            "artist": "Foo Fighters",
+            "song": "Walk",
+            "type": "dlc"
+        },
+        "CWS_70": {
+            "artist": "Foo Fighters",
+            "song": "Wheels",
+            "type": "dlc"
+        },
+        "CWS_71": {
+            "artist": "Garbage",
+            "song": "Stupid Girl",
+            "type": "dlc"
+        },
+        "CWS_72": {
+            "artist": "Garbage",
+            "song": "I Think I'm Paranoid",
+            "type": "dlc"
+        },
+        "CWS_73": {
+            "artist": "Garbage",
+            "song": "Only Happy When it Rains",
+            "type": "dlc"
+        },
+        "CWS_74": {
+            "artist": "Green Day",
+            "song": "American Idiot",
+            "type": "dlc"
+        },
+        "CWS_75": {
+            "artist": "Green Day",
+            "song": "Basket Case",
+            "type": "dlc"
+        },
+        "CWS_76": {
+            "artist": "Green Day",
+            "song": "Oh Love",
+            "type": "dlc"
+        },
+        "CWS_77": {
+            "artist": "Hotei",
+            "song": "Battle Without Honor or Humanity",
+            "type": "dlc"
+        },
+        "CWS_78": {
+            "artist": "Hotei",
+            "song": "Thrill",
+            "type": "dlc"
+        },
+        "CWS_79": {
+            "artist": "Hotei",
+            "song": "Bambina",
+            "type": "dlc"
+        },
+        "CWS_80": {
+            "artist": "Incubus",
+            "song": "Wish You Were Here",
+            "type": "dlc"
+        },
+        "CWS_81": {
+            "artist": "Incubus",
+            "song": "Love Hurts",
+            "type": "dlc"
+        },
+        "CWS_82": {
+            "artist": "Incubus",
+            "song": "Anna Molly",
+            "type": "dlc"
+        },
+        "CWS_83": {
+            "artist": "Iron Maiden",
+            "song": "The Number of the Beast",
+            "type": "dlc"
+        },
+        "CWS_84": {
+            "artist": "Iron Maiden",
+            "song": "Fear of the Dark",
+            "type": "dlc"
+        },
+        "CWS_85": {
+            "artist": "Iron Maiden",
+            "song": "Aces High",
+            "type": "dlc"
+        },
+        "CWS_86": {
+            "artist": "Iron Maiden",
+            "song": "2 Minutes to Midnight",
+            "type": "dlc"
+        },
+        "CWS_87": {
+            "artist": "Iron Maiden",
+            "song": "Run to the Hills",
+            "type": "dlc"
+        },
+        "CWS_88": {
+            "artist": "Judas Priest",
+            "song": "Breaking the Law",
+            "type": "dlc"
+        },
+        "CWS_89": {
+            "artist": "Judas Priest",
+            "song": "Living After Midnight",
+            "type": "dlc"
+        },
+        "CWS_90": {
+            "artist": "Judas Priest",
+            "song": "Painkiller",
+            "type": "dlc"
+        },
+        "CWS_91": {
+            "artist": "Judas Priest",
+            "song": "You’ve Got Another Thing Comin’",
+            "type": "dlc"
+        },
+        "CWS_92": {
+            "artist": "Maroon 5",
+            "song": "This Love",
+            "type": "dlc"
+        },
+        "CWS_93": {
+            "artist": "Maroon 5",
+            "song": "Misery",
+            "type": "dlc"
+        },
+        "CWS_94": {
+            "artist": "Maroon 5",
+            "song": "Harder to Breathe",
+            "type": "dlc"
+        },
+        "CWS_95": {
+            "artist": "Mastodon",
+            "song": "Black Tongue",
+            "type": "dlc"
+        },
+        "CWS_96": {
+            "artist": "Mastodon",
+            "song": "Colony of Birchmen",
+            "type": "dlc"
+        },
+        "CWS_97": {
+            "artist": "Mastodon",
+            "song": "Oblivion",
+            "type": "dlc"
+        },
+        "CWS_98": {
+            "artist": "Matchbox Twenty",
+            "song": "Unwell",
+            "type": "dlc"
+        },
+        "CWS_99": {
+            "artist": "Matchbox Twenty",
+            "song": "3AM",
+            "type": "dlc"
+        },
+    
+    "CWS_100": {
+        "artist": "Matchbox Twenty",
+        "song": "How Far We've Come",
+        "type": "dlc"
+    },
+    "CWS_101": {
+        "artist": "Matchbox Twenty",
+        "song": "Push",
+        "type": "dlc"
+    },
+    "CWS_102": {
+        "artist": "Matchbox Twenty",
+        "song": "She's So Mean",
+        "type": "dlc"
+    },
+    "CWS_103": {
+        "artist": "Megadeth",
+        "song": "Hangar 18",
+        "type": "dlc"
+    },
+    "CWS_104": {
+        "artist": "Megadeth",
+        "song": "Public Enemy No. 1",
+        "type": "dlc"
+    },
+    "CWS_105": {
+        "artist": "Megadeth",
+        "song": "Symphony of Destruction",
+        "type": "dlc"
+    },
+    "CWS_106": {
+        "artist": "Muse",
+        "song": "Hysteria",
+        "type": "dlc"
+    },
+    "CWS_107": {
+        "artist": "Muse",
+        "song": "Time is Running Out",
+        "type": "dlc"
+    },
+    "CWS_108": {
+        "artist": "Muse",
+        "song": "Supermassive Black Hole",
+        "type": "dlc"
+    },
+    "CWS_109": {
+        "artist": "Muse",
+        "song": "Stockholm Syndrome",
+        "type": "dlc"
+    },
+    "CWS_110": {
+        "artist": "Muse",
+        "song": "Muscle Museum",
+        "type": "dlc"
+    },
+    "CWS_111": {
+        "artist": "My Chemical Romance",
+        "song": "Planetary (GO!)",
+        "type": "dlc"
+    },
+    "CWS_112": {
+        "artist": "My Chemical Romance",
+        "song": "Welcome to the Black Parade",
+        "type": "dlc"
+    },
+    "CWS_113": {
+        "artist": "My Chemical Romance",
+        "song": "Na Na Na (Na Na Na Na Na Na Na Na Na)",
+        "type": "dlc"
+    },
+    "CWS_114": {
+        "artist": "Nickelback",
+        "song": "How You Remind Me",
+        "type": "dlc"
+    },
+    "CWS_115": {
+        "artist": "Nickelback",
+        "song": "Rockstar",
+        "type": "dlc"
+    },
+    "CWS_116": {
+        "artist": "Nickelback",
+        "song": "Bottoms Up",
+        "type": "dlc"
+    },
+    "CWS_117": {
+        "artist": "The Offspring",
+        "song": "Gone Away",
+        "type": "dlc"
+    },
+    "CWS_118": {
+        "artist": "The Offspring",
+        "song": "Come Out and Play (Keep ‘Em Separated)",
+        "type": "dlc"
+    },
+    "CWS_119": {
+        "artist": "The Offspring",
+        "song": "Self Esteem",
+        "type": "dlc"
+    },
+    "CWS_120": {
+        "artist": "Pantera",
+        "song": "Cowboys From Hell",
+        "type": "dlc"
+    },
+    "CWS_121": {
+        "artist": "Pantera",
+        "song": "Walk",
+        "type": "dlc"
+    },
+    "CWS_122": {
+        "artist": "Pantera",
+        "song": "Domination",
+        "type": "dlc"
+    },
+    "CWS_123": {
+        "artist": "Pearl Jam",
+        "song": "Black",
+        "type": "dlc"
+    },
+    "CWS_124": {
+        "artist": "Pearl Jam",
+        "song": "Jeremy",
+        "type": "dlc"
+    },
+    "CWS_125": {
+        "artist": "Pearl Jam",
+        "song": "Alive",
+        "type": "dlc"
+    },
+    "CWS_126": {
+        "artist": "The Police",
+        "song": "Roxanne",
+        "type": "dlc"
+    },
+    "CWS_127": {
+        "artist": "The Police",
+        "song": "Message in a Bottle",
+        "type": "dlc"
+    },
+    "CWS_128": {
+        "artist": "The Police",
+        "song": "Synchronicity II",
+        "type": "dlc"
+    },
+    "CWS_129": {
+        "artist": "Queen",
+        "song": "Keep Yourself Alive",
+        "type": "dlc"
+    },
+    "CWS_131": {
+        "artist": "Queen",
+        "song": "Bohemian Rhapsody",
+        "type": "dlc"
+    },
+    "CWS_132": {
+        "artist": "Queen",
+        "song": "Fat Bottomed Girls",
+        "type": "dlc"
+    },
+    "CWS_133": {
+        "artist": "Queen",
+        "song": "Killer Queen",
+        "type": "dlc"
+    },
+    "CWS_134": {
+        "artist": "Queen",
+        "song": "Stone Cold Crazy",
+        "type": "dlc"
+    },
+    "CWS_135": {
+        "artist": "Radiohead",
+        "song": "Creep",
+        "type": "dlc"
+    },
+    "CWS_136": {
+        "artist": "Radiohead",
+        "song": "Karma Police",
+        "type": "dlc"
+    },
+    "CWS_137": {
+        "artist": "Radiohead",
+        "song": "Optimistic",
+        "type": "dlc"
+    },
+    "CWS_138": {
+        "artist": "Radiohead",
+        "song": "My Iron Lung",
+        "type": "dlc"
+    },
+    "CWS_139": {
+        "artist": "Radiohead",
+        "song": "Just",
+        "type": "dlc"
+    },
+    "CWS_140": {
+        "artist": "Rush",
+        "song": "YYZ",
+        "type": "dlc"
+    },
+    "CWS_141": {
+        "artist": "Rush",
+        "song": "Tom Sawyer",
+        "type": "dlc"
+    },
+    "CWS_142": {
+        "artist": "Rush",
+        "song": "Subdivisions",
+        "type": "dlc"
+    },
+    "CWS_143": {
+        "artist": "Rush",
+        "song": "Red Barchetta",
+        "type": "dlc"
+    },
+    "CWS_144": {
+        "artist": "Rush",
+        "song": "Limelight",
+        "type": "dlc"
+    },
+    "CWS_145": {
+        "artist": "Santana",
+        "song": "Black Magic Woman/Gypsy Queen",
+        "type": "dlc"
+    },
+    "CWS_146": {
+        "artist": "Santana",
+        "song": "Oye Como Va",
+        "type": "dlc"
+    },
+    "CWS_147": {
+        "artist": "Santana feat. Rob Thomas",
+        "song": "Smooth",
+        "type": "dlc"
+    },
+    "CWS_148": {
+        "artist": "The Smashing Pumpkins",
+        "song": "Tonight, Tonight",
+        "type": "dlc"
+    },
+    "CWS_149": {
+        "artist": "The Smashing Pumpkins",
+        "song": "Bullet With Butterfly Wings",
+        "type": "dlc"
+    },
+    "CWS_150": {
+        "artist": "The Smashing Pumpkins",
+        "song": "Disarm",
+        "type": "dlc"
+    },
+    "CWS_151": {
+        "artist": "The Smashing Pumpkins",
+        "song": "Today",
+        "type": "dlc"
+    },
+    "CWS_152": {
+        "artist": "The Smashing Pumpkins",
+        "song": "1979",
+        "type": "dlc"
+    },
+    "CWS_153": {
+        "artist": "The Smashing Pumpkins",
+        "song": "Cherub Rock",
+        "type": "dlc"
+    },
+    "CWS_154": {
+        "artist": "The Strokes",
+        "song": "Reptilia",
+        "type": "dlc"
+    },
+    "CWS_155": {
+        "artist": "The Strokes",
+        "song": "Last Nite",
+        "type": "dlc"
+    },
+    "CWS_156": {
+        "artist": "The Strokes",
+        "song": "Juicebox",
+        "type": "dlc"
+    },
+    "CWS_157": {
+        "artist": "System of a Down",
+        "song": "B.Y.O.B",
+        "type": "dlc"
+    },
+    "CWS_158": {
+        "artist": "System of a Down",
+        "song": "Toxicity",
+        "type": "dlc"
+    },
+    "CWS_159": {
+        "artist": "System of a Down",
+        "song": "Aerials",
+        "type": "dlc"
+    },
+    "CWS_160": {
+        "artist": "Weezer",
+        "song": "Buddy Holly",
+        "type": "dlc"
+    },
+    "CWS_161": {
+        "artist": "Weezer",
+        "song": "Hash Pipe",
+        "type": "dlc"
+    },
+    "CWS_162": {
+        "artist": "Weezer",
+        "song": "My Name is Jonas",
+        "type": "dlc"
+    },
+    "CWS_163": {
+        "artist": "Weezer",
+        "song": "Undone - The Sweater Song",
+        "type": "dlc"
+    },
+    "CWS_164": {
+        "artist": "Weezer",
+        "song": "Island in the Sun",
+        "type": "dlc"
+    },
+    "CWS_165": {
+        "artist": "The Who",
+        "song": "Baba O’Riley",
+        "type": "dlc"
+    },
+    "CWS_166": {
+        "artist": "The Who",
+        "song": "Pinball Wizard",
+        "type": "dlc"
+    },
+    "CWS_167": {
+        "artist": "The Who",
+        "song": "Behind Blue Eyes",
+        "type": "dlc"
+    },
+    "CWS_168": {
+        "artist": "The Who",
+        "song": "Who are You",
+        "type": "dlc"
+    },
+    "CWS_130": {
+        "artist": "Aerosmith",
+        "song": "Walk This Way",
+        "type": "regular"
+    },
+    "CWS_169": {
+        "artist": "White Zombie",
+        "song": "Thunder Kiss '65",
+        "type": "regular"
+    },
+    "CWS_170": {
+        "artist": "Alice Cooper",
+        "song": "No More Mr. Nice Guy",
+        "type": "regular"
+    },
+    "CWS_171": {
+        "artist": "Alice in Chains",
+        "song": "Stone",
+        "type": "regular"
+    },
+    "CWS_172": {
+        "artist": "Arctic Monkeys",
+        "song": "R U Mine?",
+        "type": "regular"
+    },
+    "CWS_173": {
+        "artist": "Avenged Sevenfold",
+        "song": "Bat Country",
+        "type": "regular"
+    },
+    "CWS_174": {
+        "artist": "Bob Dylan",
+        "song": "Knockin' on Heaven's Door",
+        "type": "regular"
+    },
+    "CWS_175": {
+        "artist": "Boston",
+        "song": "Peace of Mind",
+        "type": "regular"
+    },
+    "CWS_176": {
+        "artist": "Bush",
+        "song": "Machinehead",
+        "type": "regular"
+    },
+    "CWS_177": {
+        "artist": "B'z",
+        "song": "Ultra Soul",
+        "type": "regular"
+    },
+    "CWS_178": {
+        "artist": "Def Leppard",
+        "song": "Pour Some Sugar on Me (2012)",
+        "type": "regular"
+    },
+    "CWS_179": {
+        "artist": "Deftones",
+        "song": "My Own Summer (Shove It)",
+        "type": "regular"
+    },
+    "CWS_180": {
+        "artist": "EarlyRise",
+        "song": "Wasteland",
+        "type": "regular"
+    },
+    "CWS_181": {
+        "artist": "Fang Island",
+        "song": "Chompers",
+        "type": "regular"
+    },
+    "CWS_182": {
+        "artist": "Foo Fighters",
+        "song": "Everlong",
+        "type": "regular"
+    },
+    "CWS_183": {
+        "artist": "Gold Motel",
+        "song": "Brand New Kind of Blue",
+        "type": "regular"
+    },
+    "CWS_184": {
+        "artist": "Green Day",
+        "song": "X-Kid",
+        "type": "regular"
+    },
+    "CWS_185": {
+        "artist": "Iron Maiden",
+        "song": "The Trooper",
+        "type": "regular"
+    },
+    "CWS_186": {
+        "artist": "Jack White",
+        "song": "Sixteen Saltines",
+        "type": "regular"
+    },
+    "CWS_187": {
+        "artist": "Jaws",
+        "song": "Stay In",
+        "type": "regular"
+    },
+    "CWS_188": {
+        "artist": "Joe Satriani",
+        "song": "Satch Boogie",
+        "type": "regular"
+    },
+    "CWS_189": {
+        "artist": "Kiss",
+        "song": "Rock and Roll All Nite",
+        "type": "regular"
+    },
+    "CWS_190": {
+        "artist": "La Sera",
+        "song": "Love That's Gone",
+        "type": "regular"
+    },
+    "CWS_191": {
+        "artist": "Magic Wands",
+        "song": "Black Magic",
+        "type": "regular"
+    },
+    "CWS_192": {
+        "artist": "Mastodon",
+        "song": "Blood and Thunder",
+        "type": "regular"
+    },
+    "CWS_193": {
+        "artist": "Minus the Bear",
+        "song": "Cold Company",
+        "type": "regular"
+    },
+    "CWS_194": {
+        "artist": "Monster Truck",
+        "song": "Sweet Mountain River",
+        "type": "regular"
+    },
+    "CWS_195": {
+        "artist": "Muse",
+        "song": "Knights of Cydonia",
+        "type": "regular"
+    },
+    "CWS_196": {
+        "artist": "Nirvana",
+        "song": "Heart Shaped Box",
+        "type": "regular"
+    },
+    "CWS_197": {
+        "artist": "Oasis",
+        "song": "Don't Look Back in Anger",
+        "type": "regular"
+    },
+    "CWS_198": {
+        "artist": "Pantera",
+        "song": "Cemetery Gates",
+        "type": "regular"
+    },
+    "CWS_199": {
+        "artist": "Paramore",
+        "song": "Now",
+        "type": "regular"
+    },
+    "CWS_200": {
+        "artist": "Paws",
+        "song": "Sore Tummy",
+        "type": "regular"
+    },
+    "CWS_201": {
+        "artist": "Queen",
+        "song": "We Are the Champions",
+        "type": "regular"
+    },
+    "CWS_202": {
+        "artist": "Radiohead",
+        "song": "Paranoid Android",
+        "type": "regular"
+    },
+    "CWS_203": {
+        "artist": "Ramones",
+        "song": "Blitzkrieg Bop",
+        "type": "regular"
+    },
+    "CWS_204": {
+        "artist": "Ratt",
+        "song": "Round and Round",
+        "type": "regular"
+    },
+    "CWS_205": {
+        "artist": "Red Fang",
+        "song": "Wires",
+        "type": "regular"
+    },
+    "CWS_206": {
+        "artist": "R.E.M.",
+        "song": "Losing My Religion",
+        "type": "regular"
+    },
+    "CWS_207": {
+        "artist": "Rise Against",
+        "song": "Savior",
+        "type": "regular"
+    },
+    "CWS_208": {
+        "artist": "Rush",
+        "song": "The Spirit of Radio",
+        "type": "regular"
+    },
+    "CWS_209": {
+        "artist": "Screaming Females",
+        "song": "Rotten Apple",
+        "type": "regular"
+    },
+    "CWS_210": {
+        "artist": "Slayer",
+        "song": "War Ensemble",
+        "type": "regular"
+    },
+    "CWS_211": {
+        "artist": "Splashh",
+        "song": "All I Wanna Do",
+        "type": "regular"
+    },
+    "CWS_212": {
+        "artist": "System of a Down",
+        "song": "Hypnotize",
+        "type": "regular"
+    },
+    "CWS_213": {
+        "artist": "Tak Matsumoto",
+        "song": "Go Further",
+        "type": "regular"
+    },
+    "CWS_214": {
+        "artist": "The Dear Hunter",
+        "song": "Stuck on a Wire Out on a Fence",
+        "type": "regular"
+    },
+    "CWS_215": {
+        "artist": "The Kinks",
+        "song": "You Really Got Me",
+        "type": "regular"
+    },
+    "CWS_216": {
+        "artist": "The Police",
+        "song": "Every Breath You Take",
+        "type": "regular"
+    },
+    "CWS_217": {
+        "artist": "The Rolling Stones",
+        "song": "Paint It Black",
+        "type": "regular"
+    },
+    "CWS_218": {
+        "artist": "The Shins",
+        "song": "For a Fool",
+        "type": "regular"
+    },
+    "CWS_219": {
+        "artist": "The Smashing Pumpkins",
+        "song": "The Chimera",
+        "type": "regular"
+    },
+    "CWS_220": {
+        "artist": "The Who",
+        "song": "My Generation",
+        "type": "regular"
+    },
+    "CWS_221": {
+        "artist": "Tom Petty and the Heartbreakers",
+        "song": "Mary Jane's Last Dance",
+        "type": "regular"
+    },
+    "CWS_222": {
+        "artist": "Weezer",
+        "song": "Say It Ain't So",
+        "type": "regular"
+    },
+    "CWS_223": {
+        "artist": "Motorhead",
+        "song": "Ace of Spades",
+        "type": "regular"
+    },
+    "CWS_224": {
+        "artist": "Jimi Hendrix",
+        "song": "Castles Made of Sand",
+        "type": "regular"
+    },
+    "CWS_225": {
+        "artist": "Jimi Hendrix",
+        "song": "Fire",
+        "type": "regular"
+    },
+    "CWS_226": {
+        "artist": "Jimi Hendrix",
+        "song": "Foxy Lady",
+        "type": "regular"
+    },
+    "CWS_227": {
+        "artist": "Jimi Hendrix",
+        "song": "If 6 Was 9",
+        "type": "regular"
+    },
+    "CWS_228": {
+        "artist": "Jimi Hendrix",
+        "song": "Little Wing",
+        "type": "regular"
+    },
+    "CWS_229": {
+        "artist": "Jimi Hendrix",
+        "song": "Manic Depression",
+        "type": "regular"
+    },
+    "CWS_230": {
+        "artist": "Jimi Hendrix",
+        "song": "Purple Haze",
+        "type": "regular"
+    },
+    "CWS_231": {
+        "artist": "Jimi Hendrix",
+        "song": "The Wind Cries Mary",
+        "type": "regular"
+    },
+    "CWS_232": {
+        "artist": "Jimi Hendrix",
+        "song": "Red House",
+        "type": "regular"
+    },
+    "CWS_233": {
+        "artist": "Jimi Hendrix",
+        "song": "Freedom",
+        "type": "regular"
+    },
+    "CWS_234": {
+        "artist": "Jimi Hendrix",
+        "song": "Voodoo Child (Slight Return)",
+        "type": "regular"
+    },
+    "CWS_235": {
+        "artist": "Jimi Hendrix",
+        "song": "Bold as Love",
+        "type": "regular"
+    }
+}

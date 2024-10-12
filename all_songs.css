@@ -1,0 +1,155 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    
+}
+
+
+
+.permanent-marker-regular {
+    font-family: "Permanent Marker", cursive;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .poetsen-one-regular {
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .bungee-inline-regular {
+    font-family: "Bungee Inline", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .bungee-inline-regular {
+    font-family: "Bungee Inline", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+
+#songListContainer {
+    max-width: 745px; /* Set a maximum width for the container */
+    margin: auto; /* Center the container */
+    padding: 25px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #fa9b48 100%);
+    background-color: #f9f9f9;
+}
+.header_container{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 5px;
+    
+    
+}
+h1 {
+    
+    -webkit-text-stroke: 2px black;
+    border: black 3px solid;
+    background-color: #fcff96;
+    font-size: xxx-large;
+    color: #31f4a3;
+    border-radius: 58px;
+    padding: 0px;
+    font-family: "Poetsen One", sans-serif;
+}
+
+p{
+    
+    border: black 3px solid;
+    background-color: #f2f1f1;
+    font-size: xxx-large;
+    color: #000000;
+    font-weight: bold;
+    padding: 3px;
+    border-radius: 10px;
+    font-family: "Poetsen One", sans-serif;
+}
+
+.h2{
+    color: #63bbff;
+    
+    
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px; /* Reduced padding for a compact layout */
+    text-align: left;
+}
+
+/* Control individual column widths */
+th:nth-child(1) {
+    width: 24%;
+}
+
+td:nth-child(1) {
+    width: 24%; /* CWS Number */
+    color: #eff8fd;
+}
+
+th:nth-child(2), td:nth-child(2) {
+    width: 45%; /* Artist */
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 40%; /* Song */
+}
+
+th {
+    font-family: "Poetsen One", sans-serif;
+    background-color: #f2f2f2;
+    border: none; /* No border for header */
+    border: black 3px solid;
+}
+
+/* Add scrolling to the tbody for overflow */
+tbody {
+    display: block; /* Allow for scrolling */
+    margin-top: 5px;
+    max-height: 500px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 5px;
+    font-size: x-large; /* Adjust font size */
+    border: black 3px solid;
+    white-space: nowrap; /* Prevent text wrapping */
+    border-radius: 10px;
+}
+
+tr {
+    display: table; /* Set tr to table display */
+    table-layout: fixed; /* Ensure consistent width */
+    width: 100%;
+    margin-top: 5px;
+}
+
+/* Body row styles with borders */
+tbody tr {
+    border: 4px black solid; /* Border for body rows only */
+    border-radius: 10px;
+}
+
+/* Additional styles for rows */
+.tr-regular {
+    font-family: "Poetsen One", sans-serif;
+    background: linear-gradient(to right, #03001e, #82c5ff, #38aaec, #eff8fd);
+}
+
+.tr-dlc {
+    font-family: "Poetsen One", sans-serif;
+    background: linear-gradient(to right, #03001e, #a4f07b, #05df05, #eff8fd);
+}
