@@ -13,11 +13,11 @@ import threading
 import time
 
 # Setup Spotify API authentication
-client_id = SPOTIFY_CLIENT_ID
-client_secret = SPOTIFY_CLIENT_SECRET
+# client_id = SPOTIFY_CLIENT_ID
+# client_secret = SPOTIFY_CLIENT_SECRET
 
-credentials = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-sp = spotipy.Spotify(client_credentials_manager=credentials)
+# credentials = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+# sp = spotipy.Spotify(client_credentials_manager=credentials)
 
 # def get_song_length(song_name, artist_name):
 #     """Fetch the song length from Spotify based on song name and artist."""
@@ -166,8 +166,14 @@ def process_mock_donation(user_profile):
 
     # Update user_profiles.json
     update_user_profiles(user_queue)
-
     return user_queue
+
+    #update the user data time 
+def convert_length_to_minutes(length_seconds):
+    """Convert length from seconds to minutes."""
+    return length_seconds / 60  # Convert seconds to minutes
+
+    
 
 def update_user_profiles(user_queue):
     """Update the user_profiles.json file based on current user queue."""
@@ -180,7 +186,7 @@ def update_user_profiles(user_queue):
             "amount": profile["amount"],
             "priority": profile["priority"],
             "cws_source": profile["cws_source"],
-            "length_mins": profile["length"] / 60  # Convert seconds to minutes
+            "length_mins": convert_length_to_minutes(profile["length"])
         })
 
     # Sort the user profiles

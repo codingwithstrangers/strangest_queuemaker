@@ -5,6 +5,15 @@
         "amount": 1,
         "priority": false,
         "cws_source": "regular",
-        "length_mins": 300
+        "length_mins": 5.0
+    }
+,
+    {
+        "user_name": "theidentitybooth",
+        "song": "Juice",
+        "amount": 3,
+        "priority": false,
+        "cws_source": "dlc",
+        "length_mins": 5.0
     }
 ]
