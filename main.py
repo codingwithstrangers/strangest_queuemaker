@@ -16,18 +16,18 @@ import time  # Importing the time module
 client_id = SPOTIFY_CLIENT_ID
 client_secret = SPOTIFY_CLIENT_SECRET
 
-def authenticate_spotify():
-    credentials = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-    sp = spotipy.Spotify(client_credentials_manager=credentials)
-    print("The music is in")  # Print statement when connected
-    return sp
+# def authenticate_spotify():
+#     credentials = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+#     sp = spotipy.Spotify(client_credentials_manager=credentials)
+#     print("The music is in")  # Print statement when connected
+#     return sp
 
-def get_song_length(sp, artist, song):
-    results = sp.search(q=f'artist:{artist} track:{song}', type='track')
-    if results['tracks']['items']:
-        track = results['tracks']['items'][0]  # Get the first matching track
-        return track['duration_ms'] / 1000  # Return length in seconds
-    return 191  # Return default length of 3 minutes and 11 seconds
+# def get_song_length(sp, artist, song):
+#     results = sp.search(q=f'artist:{artist} track:{song}', type='track')
+#     if results['tracks']['items']:
+#         track = results['tracks']['items'][0]  # Get the first matching track
+#         return track['duration_ms'] / 1000  # Return length in seconds
+#     return 191  # Return default length of 3 minutes and 11 seconds
 
 def format_time(seconds):
     """Convert seconds to H:MM:SS format."""
@@ -44,7 +44,7 @@ def export_to_json():
         json.dump(sorted_profiles, f, indent=4)  # Export sorted profiles to JSON
 
 class SongTimer:
-    def __init__(self, start_time=5800):
+    def __init__(self, start_time=18000):
         self.current_time = start_time  # Timer starts at a default value (5800 seconds)
         self.countdown_running = False  # Control the countdown
         self.timer_thread = None  # Placeholder for the timer thread
@@ -102,7 +102,7 @@ client.pubsub = pubsub.PubSubPool(client)
 refresh_token.refresh_access_token()
 
 # Authenticate Spotify
-sp = authenticate_spotify()
+# sp = authenticate_spotify()
 
 # Timer variables
 current_time = 5800  # Default start time in seconds
@@ -144,7 +144,6 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
     print(f"Bits received: {event.bits_used} from {event.user.name}")
 
     cws_number = ""
-    song_info = {}
     dict_source = None
 
     match = re.search(r'cws_\d+', message, re.IGNORECASE)
@@ -155,12 +154,14 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
         # Check if the key exists in the DLC songs dictionary
         if cws_number in dlc_cws_songs:
             dict_source = "dlc"
-            artist_name, song_title = dlc_cws_songs[cws_number]
-            song_info = {"artist": artist_name, "song": song_title}
+            song_info = {
+                "song": dlc_cws_songs[cws_number][1],
+                "artist": dlc_cws_songs[cws_number][0]
+            }
             
             # DLC songs require at least 300 bits, 500 or more for priority
             # Get song length from Spotify
-            length = get_song_length(sp, song_info["artist"], song_info["song"])
+            length = 300
             if amount >= 3:
                 priority = amount >= 5  # True if 500 bits or more, otherwise False
                 print(f"Adding {cws_number} (DLC) to user queue. Priority: {priority}")
@@ -174,7 +175,7 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
                     "artist": song_info["artist"],
                     "cws_source": dict_source,
                     "priority": priority,
-                    "length": length,
+                    "length": length
                 }
                 song_timer.add_time_to_count(length)  # Add song length to the timer
             elif 1 <= amount < 3:
@@ -183,11 +184,9 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
         # Check if the key exists in the regular songs dictionary
         elif cws_number in regular_cws_songs:
             dict_source = "regular"
-            artist_name, song_title = regular_cws_songs[cws_number]
-            song_info = {"artist": artist_name, "song": song_title}
-
+            song_info = regular_cws_songs[cws_number]
             # Get song length from Spotify
-            length = get_song_length(sp, song_info["artist"], song_info["song"])
+            length = 300
             # Regular songs require at least 100 bits, 500 or more for priority
             if amount >= 1:
                 priority = amount >= 5  # True if 500 bits or more, otherwise False
@@ -230,7 +229,7 @@ def update_user_profiles(user_queue):
             "amount": profile["amount"],
             "priority": profile["priority"],
             "cws_source": profile["cws_source"],
-            "length_mins": profile["length"] / 60  # Convert seconds to minutes
+            "length_mins": profile["length"]
         })
 
     # Sort the user profiles

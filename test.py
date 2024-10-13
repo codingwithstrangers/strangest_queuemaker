@@ -19,15 +19,15 @@ client_secret = SPOTIFY_CLIENT_SECRET
 credentials = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 sp = spotipy.Spotify(client_credentials_manager=credentials)
 
-def get_song_length(song_name, artist_name):
-    """Fetch the song length from Spotify based on song name and artist."""
-    query = f"track:{song_name} artist:{artist_name}"
-    results = sp.search(q=query, type='track', limit=1)
+# def get_song_length(song_name, artist_name):
+#     """Fetch the song length from Spotify based on song name and artist."""
+#     query = f"track:{song_name} artist:{artist_name}"
+#     results = sp.search(q=query, type='track', limit=1)
     
-    if results['tracks']['items']:
-        track = results['tracks']['items'][0]
-        return track['duration_ms'] / 1000  # Duration in seconds
-    return 180  # Default to 3 minutes (180 seconds) if not found
+#     if results['tracks']['items']:
+#         track = results['tracks']['items'][0]
+#         return track['duration_ms'] / 1000  # Duration in seconds
+#     return 180  # Default to 3 minutes (180 seconds) if not found
 
 class SongTimer:
     def __init__(self, start_time=5800):
@@ -110,7 +110,7 @@ def process_mock_donation(user_profile):
             }
             # DLC songs require at least 300 bits, 500 or more for priority
             # Get song length from Spotify
-            length = get_song_length(song_info["song"], song_info["artist"])
+            length = 300
             if amount >= 300:
                 priority = amount >= 500  # True if 500 bits or more, otherwise False
                 print(f"Adding {cws_number} (DLC) to user queue. Priority: {priority}")
@@ -135,7 +135,7 @@ def process_mock_donation(user_profile):
             dict_source = "regular"
             song_info = regular_cws_songs[cws_number]
             # Get song length from Spotify
-            length = get_song_length(song_info["song"], song_info["artist"])
+            length = 300
             # Regular songs require at least 100 bits, 500 or more for priority
             if amount >= 100:
                 priority = amount >= 500  # True if 500 bits or more, otherwise False
