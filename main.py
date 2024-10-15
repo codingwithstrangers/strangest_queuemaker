@@ -62,10 +62,11 @@ class SongTimer:
         print("Countdown started...")
         while self.current_time > 0 and self.countdown_running:
             formatted_time = self.format_time(self.current_time)  # Format the time
-            print(f"Current countdown: {formatted_time}")  # Display countdown
+            # print(f"Current countdown: {formatted_time}")  # Display countdown
             self.update_timer_file()  # Update the txt file with the current countdown
             time.sleep(1)  # Wait for 1 second
             self.current_time -= 1
+            return formatted_time
 
         if self.current_time <= 0:
             print("Countdown finished.")
@@ -184,6 +185,7 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
                 song_timer.add_time_to_count(length)  # Add song length to the timer
             elif 1 <= amount < 3:
                 print(f"Hey {user_name}, you might want to try a regular song for that donation.")
+                return
 
         # Check if the key exists in the regular songs dictionary
         elif cws_number in regular_cws_songs:
@@ -228,7 +230,11 @@ def convert_length_to_minutes(length_seconds):
 
 def update_user_profiles(user_queue):
     """Update the user_profiles.json file based on current user queue."""
-    user_profiles = []
+    try:
+        with open('user_profiles.json', 'r') as f:
+            user_profiles = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        user_profiles = []
 
     for user_name, profile in user_queue.items():
         user_profiles.append({
@@ -240,12 +246,11 @@ def update_user_profiles(user_queue):
             "length_mins": convert_length_to_minutes(profile["length"])
         })
 
-    # Sort the user profiles
-    user_profiles.sort(key=lambda x: (not x['priority'], x['amount']), reverse=True)
-
     # Clear the file and write updated profiles
+    user_profiles.sort(key=lambda x: (not x['priority'], x['amount']), reverse=False)
     with open('user_profiles.json', 'w') as f:
-        json.dump(user_profiles, f, indent=4)  # Save to JSON file
+        json.dump(user_profiles, f, indent=4)
+
 async def main():
     # Define the topics to subscribe to
     topics = [
