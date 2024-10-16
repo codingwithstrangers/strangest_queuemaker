@@ -5,9 +5,7 @@ from configuration import *
 import json
 import re
 from datetime import datetime
-import spotipy
 import refresh_token
-from spotipy.oauth2 import SpotifyClientCredentials
 from cws_songs import regular_cws_songs, dlc_cws_songs
 import threading
 import time  # Importing the time module
@@ -16,28 +14,15 @@ import time  # Importing the time module
 client_id = SPOTIFY_CLIENT_ID
 client_secret = SPOTIFY_CLIENT_SECRET
 
-# def authenticate_spotify():
-#     credentials = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-#     sp = spotipy.Spotify(client_credentials_manager=credentials)
-#     print("The music is in")  # Print statement when connected
-#     return sp
-
-# def get_song_length(sp, artist, song):
-#     results = sp.search(q=f'artist:{artist} track:{song}', type='track')
-#     if results['tracks']['items']:
-#         track = results['tracks']['items'][0]  # Get the first matching track
-#         return track['duration_ms'] / 1000  # Return length in seconds
-#     return 191  # Return default length of 3 minutes and 11 seconds
-
 #clear json
 with open('user_profiles.json', 'w') as f:
     f.write("")  
 
-def format_time(seconds):
-    """Convert seconds to H:MM:SS format."""
-    hours, remainder = divmod(seconds, 3600)
-    minutes, seconds = divmod(remainder, 60)
-    return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
+# def format_time(seconds):
+#     """Convert seconds to H:MM:SS format."""
+#     hours, remainder = divmod(seconds, 3600)
+#     minutes, seconds = divmod(remainder, 60)
+#     return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
 
 # Function to export sorted user profiles to JSON
 def export_to_json():
@@ -55,18 +40,19 @@ class SongTimer:
 
     def update_timer_file(self):
         with open('song_timer.txt', 'w') as f:
-            f.write(str(self.current_time))  # Write the current time to the file
+            f.write(str(self.format_time))  # Write the current time to the file
 
     def start_count(self):
         self.countdown_running = True
         print("Countdown started...")
+        
         while self.current_time > 0 and self.countdown_running:
-            formatted_time = self.format_time(self.current_time)  # Format the time
+            # formatted_time = self.format_time(self.current_time)  # Format the time
             # print(f"Current countdown: {formatted_time}")  # Display countdown
             self.update_timer_file()  # Update the txt file with the current countdown
             time.sleep(1)  # Wait for 1 second
             self.current_time -= 1
-            return formatted_time
+# print(f"Current countdown: {formatted_time}")        
 
         if self.current_time <= 0:
             print("Countdown finished.")
@@ -74,11 +60,12 @@ class SongTimer:
     def add_time_to_count(self, song_length):
         self.current_time += song_length  # Add song length to current time
 
-    def format_time(self, seconds):
-        hours, seconds = divmod(seconds, 3600)  # Convert seconds to hours and remaining seconds
+    @property
+    def format_time(self):
+        hours, seconds = divmod(self.current_time, 3600)  # Convert seconds to hours and remaining seconds
         minutes, seconds = divmod(seconds, 60)  # Convert remaining seconds to minutes and seconds
-        return f"{int(hours)} hours, {int(minutes)} minutes, and {int(seconds)} seconds" 
-
+        return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}" 
+        
     def reset_timer(self, new_time):
         self.current_time = new_time  # Reset the timer to a new value
 
@@ -94,50 +81,14 @@ song_timer.start_timer()  # Start the countdown timer
 
 # Dictionary to store user profiles
 users_profiles = {}
-
+user_queue = {}
 user_token = USER_TOKEN
 oauth_token = CLIENT_ID
 broadcaster_id = int(BROADCASTER_ID)
 broadcast_name = CHANNEL_NAME
-
 client = twitchio.Client(token=user_token)
 client.pubsub = pubsub.PubSubPool(client)
 
-# Run refresh before code
-refresh_token.refresh_access_token()
-
-# Authenticate Spotify
-# sp = authenticate_spotify()
-
-# Timer variables
-current_time = 5800  # Default start time in seconds
-countdown_running = True
-
-def update_timer_file():
-    with open('song_timer.txt', 'w') as f:
-        f.write(str(current_time))  # Write the current time to the file
-
-def start_count():
-    global current_time, countdown_running
-    print("Countdown started...")
-    while current_time > 0 and countdown_running:
-        formatted_time = format_time(current_time)  # Format the time
-        print(f"Current countdown: {formatted_time}")  # Display countdown
-        update_timer_file()  # Update the txt file with the current countdown
-        time.sleep(1)  # Wait for 1 second
-        current_time -= 1
-
-    if current_time <= 0:
-        print("Countdown finished.")
-
-def add_time_to_count(song_length):
-    global current_time
-    current_time += song_length  # Add song length to current time
-
-# Start the countdown in a separate thread
-countdown_thread = threading.Thread(target=start_count)
-countdown_thread.start()
-user_queue = {}
 # Event for handling bit redemptions
 @client.event()
 async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
@@ -191,7 +142,6 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
         elif cws_number in regular_cws_songs:
             dict_source = "regular"
             song_info = regular_cws_songs[cws_number]
-            # Get song length from Spotify
             length = 300
             # Regular songs require at least 100 bits, 500 or more for priority
             if amount >= 1:
@@ -220,6 +170,7 @@ async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
     # No CWS key in the message
     else:
         print(f"No CWS number found in the message: {message}")
+        return
 
     # Update user_profiles.json
     update_user_profiles(user_queue)

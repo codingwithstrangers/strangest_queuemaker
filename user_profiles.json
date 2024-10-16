@@ -1,9 +1,25 @@
 [
     {
         "user_name": "theidentitybooth",
+        "song": "Isolation",
+        "amount": 5,
+        "priority": true,
+        "cws_source": "dlc",
+        "length_mins": 5.0
+    },
+    {
+        "user_name": "theidentitybooth",
+        "song": "Isolation",
+        "amount": 5,
+        "priority": true,
+        "cws_source": "dlc",
+        "length_mins": 5.0
+    },
+    {
+        "user_name": "fizzythevisionary",
         "song": "Juice",
-        "amount": 3,
-        "priority": false,
+        "amount": 5,
+        "priority": true,
         "cws_source": "dlc",
         "length_mins": 5.0
     },
@@ -12,30 +28,6 @@
         "song": "Wasteland",
         "amount": 1,
         "priority": false,
-        "cws_source": "regular",
-        "length_mins": 5.0
-    },
-    {
-        "user_name": "theidentitybooth",
-        "song": "Bat Country",
-        "amount": 1,
-        "priority": false,
-        "cws_source": "regular",
-        "length_mins": 5.0
-    },
-    {
-        "user_name": "theidentitybooth",
-        "song": "Wasteland",
-        "amount": 5,
-        "priority": true,
-        "cws_source": "regular",
-        "length_mins": 5.0
-    },
-    {
-        "user_name": "theidentitybooth",
-        "song": "Peace of Mind",
-        "amount": 5,
-        "priority": true,
         "cws_source": "regular",
         "length_mins": 5.0
     }
