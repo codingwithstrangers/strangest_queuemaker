@@ -24,8 +24,40 @@
         "length_mins": 5.0
     },
     {
+        "user_name": "fizzythevisionary",
+        "song": "Juice",
+        "amount": 5,
+        "priority": true,
+        "cws_source": "dlc",
+        "length_mins": 5.0
+    },
+    {
+        "user_name": "fizzythevisionary",
+        "song": "Juice",
+        "amount": 5,
+        "priority": true,
+        "cws_source": "dlc",
+        "length_mins": 5.0
+    },
+    {
         "user_name": "theidentitybooth",
         "song": "Wasteland",
+        "amount": 1,
+        "priority": false,
+        "cws_source": "regular",
+        "length_mins": 5.0
+    },
+    {
+        "user_name": "theidentitybooth",
+        "song": "Walk This Way",
+        "amount": 1,
+        "priority": false,
+        "cws_source": "regular",
+        "length_mins": 5.0
+    },
+    {
+        "user_name": "theidentitybooth",
+        "song": "Walk This Way",
         "amount": 1,
         "priority": false,
         "cws_source": "regular",
