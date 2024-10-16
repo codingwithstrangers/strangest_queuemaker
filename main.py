@@ -10,19 +10,10 @@ from cws_songs import regular_cws_songs, dlc_cws_songs
 import threading
 import time  # Importing the time module
 
-# Setup Spotify API authentication
-client_id = SPOTIFY_CLIENT_ID
-client_secret = SPOTIFY_CLIENT_SECRET
 
 #clear json
 with open('user_profiles.json', 'w') as f:
     f.write("")  
-
-# def format_time(seconds):
-#     """Convert seconds to H:MM:SS format."""
-#     hours, remainder = divmod(seconds, 3600)
-#     minutes, seconds = divmod(remainder, 60)
-#     return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
 
 # Function to export sorted user profiles to JSON
 def export_to_json():
@@ -47,12 +38,9 @@ class SongTimer:
         print("Countdown started...")
         
         while self.current_time > 0 and self.countdown_running:
-            # formatted_time = self.format_time(self.current_time)  # Format the time
-            # print(f"Current countdown: {formatted_time}")  # Display countdown
             self.update_timer_file()  # Update the txt file with the current countdown
             time.sleep(1)  # Wait for 1 second
-            self.current_time -= 1
-# print(f"Current countdown: {formatted_time}")        
+            self.current_time -= 1    
 
         if self.current_time <= 0:
             print("Countdown finished.")
@@ -89,92 +77,97 @@ broadcast_name = CHANNEL_NAME
 client = twitchio.Client(token=user_token)
 client.pubsub = pubsub.PubSubPool(client)
 
+   
+    #first we need the check CWS_number in the message
+def get_cws_number(message:str):
+    #use match to check message
+    match = re.search(r'cws_\d+', message, re.IGNORECASE)
+    # $if statemte for work
+    if match:
+        return  match.group().upper()
+    else:
+        return ""
+def get_song_info(cws_number: str, amount: int) -> dict:
+    """Retrieve song info from either DLC or regular song dictionaries based on the CWS number."""
+    if cws_number in dlc_cws_songs:
+        return {
+            "dict_source": "dlc",
+            "song": dlc_cws_songs[cws_number][1],
+            "artist": dlc_cws_songs[cws_number][0],
+            "length": 300,
+            "priority": amount >= 5  
+        }
+    elif cws_number in regular_cws_songs:
+        return {
+            "dict_source": "regular",
+            "song": regular_cws_songs[cws_number]["song"],
+            "artist": regular_cws_songs[cws_number]["artist"],
+            "length": 300,
+            "priority": amount >= 5  
+        }
+    return None
+
+#rebuild class for json export
+def add_song(user_name: str, amount: int, time: str, message: str, cws_number: str, song_info: dict):
+    """Add the song to the user queue and adjust the song timer."""
+    user_queue[user_name] = {
+        "amount": amount,
+        "time": time,
+        "message": message,
+        "cws_number": cws_number,
+        "song": song_info["song"],
+        "artist": song_info["artist"],
+        "cws_source": song_info["dict_source"],
+        "priority": song_info["priority"],
+        "length": song_info["length"]
+    }
+    print(f"Adding {cws_number} ({song_info['dict_source']}) to user queue. Priority: {song_info['priority']}")
+    #need to also add time to clock if this works
+    song_timer.add_time_to_count(song_info["length"])
+
+#remember you want to tell it what it cant do vs what you want it to do 
+def check_donation(amount: int, song_info: dict, user_name: str) -> bool:
+    """Validate the donation based on the song type and amount."""
+    #basically a song that is DLC but the bit amount is lower than expected 
+    if song_info["dict_source"] == "dlc" and amount < 3:
+        print(f"Hey {user_name}, you might want to try a regular song for that donation.")
+        return False
+    elif song_info["dict_source"] == "regular" and amount < 1:
+        print(f"Hey {user_name}, get they money up not they funny up.")
+        return False
+    return True
+
 # Event for handling bit redemptions
-@client.event()
-async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
+def event_handler(event):
+    """Main event handler for processing bits and adding songs to the queue."""
     user_name = event.user.name
     amount = event.bits_used
     time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    message = event.message.content 
+    message = event.message.content
+
     print(message)
-    print(f"Bits received: {event.bits_used} from {event.user.name}")
+    print(f"Bits received: {amount} from {user_name}")
 
-    cws_number = ""
-    dict_source = None
-
-    match = re.search(r'cws_\d+', message, re.IGNORECASE)
-    if match:
-        cws_number = match.group().upper()  # Convert to uppercase for dictionary match
+    cws_number = get_cws_number(message)
+    
+    if cws_number:
         print(f"Extracted CWS key: {cws_number}")
+        song_info = get_song_info(cws_number, amount)
 
-        # Check if the key exists in the DLC songs dictionary
-        if cws_number in dlc_cws_songs:
-            dict_source = "dlc"
-            song_info = {
-                "song": dlc_cws_songs[cws_number][1],
-                "artist": dlc_cws_songs[cws_number][0]
-            }
-            
-            # DLC songs require at least 300 bits, 500 or more for priority
-            # Get song length from Spotify
-            length = 300
-            if amount >= 3:
-                priority = amount >= 5  # True if 500 bits or more, otherwise False
-                print(f"Adding {cws_number} (DLC) to user queue. Priority: {priority}")
-                # Add to user_queue
-                user_queue[user_name] = {
-                    "amount": amount,
-                    "time": time,
-                    "message": message,
-                    "cws_number": cws_number,
-                    "song": song_info["song"],
-                    "artist": song_info["artist"],
-                    "cws_source": dict_source,
-                    "priority": priority,
-                    "length": length
-                }
-                song_timer.add_time_to_count(length)  # Add song length to the timer
-            elif 1 <= amount < 3:
-                print(f"Hey {user_name}, you might want to try a regular song for that donation.")
-                return
-
-        # Check if the key exists in the regular songs dictionary
-        elif cws_number in regular_cws_songs:
-            dict_source = "regular"
-            song_info = regular_cws_songs[cws_number]
-            length = 300
-            # Regular songs require at least 100 bits, 500 or more for priority
-            if amount >= 1:
-                priority = amount >= 5  # True if 500 bits or more, otherwise False
-                print(f"Adding {cws_number} (Regular) to user queue. Priority: {priority}")
-                # Add to user_queue
-                user_queue[user_name] = {
-                    "amount": amount,
-                    "time": time,
-                    "message": message,
-                    "cws_number": cws_number,
-                    "song": song_info["song"],
-                    "artist": song_info["artist"],
-                    "cws_source": dict_source,
-                    "priority": priority,
-                    "length": length,
-                }
-                song_timer.add_time_to_count(length)  # Add song length to the timer
-            else:
-                print(f"Hey {user_name}, get they money up not they funny up.")
-
-        # If the CWS key was not found in either dictionary
+        if song_info:
+            if check_donation(amount, song_info, user_name):
+                add_song(user_name, amount, time, message, cws_number, song_info)
+                update_user_profiles(user_queue) 
         else:
             print(f"{cws_number} not found in either dictionary.")
-    
-    # No CWS key in the message
     else:
         print(f"No CWS number found in the message: {message}")
-        return
 
-    # Update user_profiles.json
-    update_user_profiles(user_queue)
-
+@client.event()
+async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
+    #call fuction to handle pubsub_events
+    event_handler(event)
+  
 def convert_length_to_minutes(length_seconds):
     """Convert length from seconds to minutes."""
     return length_seconds / 60 
