@@ -1,4 +1,6 @@
 .env
 client.py
 client_secret_CLIENTID.json
+failed_queue.txt
+*.txt
 __pycache__

@@ -11,9 +11,24 @@ import threading
 import time  # Importing the time module
 
 
-#clear json
+# Dictionary to store user profiles
+users_profiles = {}
+user_queue = {}
+user_token = USER_TOKEN
+oauth_token = CLIENT_ID
+broadcaster_id = int(BROADCASTER_ID)
+broadcast_name = CHANNEL_NAME
+client = twitchio.Client(token=user_token, initial_channels=['codingwithstrangers'])
+client.pubsub = pubsub.PubSubPool(client)
+
+
+
+#clear json and txt files
 with open('user_profiles.json', 'w') as f:
     f.write("")  
+
+with open('failed_queue.txt', 'w') as f:
+    f.write("") 
 
 # Function to export sorted user profiles to JSON
 def export_to_json():
@@ -65,18 +80,6 @@ class SongTimer:
 # Initialize the SongTimer
 song_timer = SongTimer()  # Create an instance of SongTimer
 song_timer.start_timer()  # Start the countdown timer
-
-
-# Dictionary to store user profiles
-users_profiles = {}
-user_queue = {}
-user_token = USER_TOKEN
-oauth_token = CLIENT_ID
-broadcaster_id = int(BROADCASTER_ID)
-broadcast_name = CHANNEL_NAME
-client = twitchio.Client(token=user_token)
-client.pubsub = pubsub.PubSubPool(client)
-
    
     #first we need the check CWS_number in the message
 def get_cws_number(message:str):
@@ -126,19 +129,53 @@ def add_song(user_name: str, amount: int, time: str, message: str, cws_number: s
     song_timer.add_time_to_count(song_info["length"])
 
 #remember you want to tell it what it cant do vs what you want it to do 
-def check_donation(amount: int, song_info: dict, user_name: str) -> bool:
+async def check_donation(amount: int, song_info: dict, user_name: str) -> bool:
     """Validate the donation based on the song type and amount."""
     #basically a song that is DLC but the bit amount is lower than expected 
     if song_info["dict_source"] == "dlc" and amount < 3:
         print(f"Hey {user_name}, you might want to try a regular song for that donation.")
+        await no_bits(user_name, amount, song_info['song'], song_info['artist'], song_info['priority'])
+        missed_queue(user_name, amount)
         return False
     elif song_info["dict_source"] == "regular" and amount < 1:
         print(f"Hey {user_name}, get they money up not they funny up.")
+        await no_bits(user_name, amount, song_info['song'], song_info['artist'], song_info['priority'])
+        missed_queue(user_name, amount)
         return False
     return True
 
+# Send a chat message to thank users
+async def thanks(user_name, amount, song_title, artist, priority):
+    priority_status = "Priority" if priority else "Regular"
+    message = (f"Thank you @{user_name} for your {amount} Bits! 🎵 "
+               f"Your song '{song_title}' by {artist} has been added as a {priority_status} request.")
+    channel = client.get_channel(broadcast_name[0])
+    await channel.send(message)
+
+# Send a chat message to no bits users
+async def no_bits(user_name, amount, song_title, artist, priority):
+    priority_status = "Priority" if priority else "Regular"
+    message = (f"coding32Noo Sorry @{user_name} your {amount} Bits! will not cover"
+               f"'{song_title}' by {artist} as a {priority_status} request.")
+    channel = client.get_channel(broadcast_name[0])
+    await channel.send(message)
+
+
+# Send a chat message to no cws users
+async def no_cws(user_name, amount):
+    message = (f"coding32What Sorry @{user_name} your {amount} Bits! may cover"
+               f"Your song but that song is not on the list")
+    channel = client.get_channel(broadcast_name[0])
+    await channel.send(message)
+
+#Want to make a function that prits the users info who fux up the queue
+def missed_queue(user_name, amount):
+    with open("failed_queue.txt", "a") as file:
+        file.write(f"{user_name} | {amount} bits \n")
+
+
 # Event for handling bit redemptions
-def event_handler(event):
+async def event_handler(event):
     """Main event handler for processing bits and adding songs to the queue."""
     user_name = event.user.name
     amount = event.bits_used
@@ -150,23 +187,36 @@ def event_handler(event):
 
     cws_number = get_cws_number(message)
     
-    if cws_number:
-        print(f"Extracted CWS key: {cws_number}")
-        song_info = get_song_info(cws_number, amount)
-
-        if song_info:
-            if check_donation(amount, song_info, user_name):
-                add_song(user_name, amount, time, message, cws_number, song_info)
-                update_user_profiles(user_queue) 
-        else:
-            print(f"{cws_number} not found in either dictionary.")
-    else:
+    if cws_number == "":
         print(f"No CWS number found in the message: {message}")
+        await no_cws(user_name, amount)
+        missed_queue(user_name, amount)
+        return
+    
+    print(f"Extracted CWS key: {cws_number}")
+    song_info = get_song_info(cws_number, amount) 
+
+    if song_info is None:
+        print(f"{cws_number} not found in either dictionary.")
+        await no_bits(user_name, amount)
+        missed_queue(user_name, amount)
+        return
+    
+    if await check_donation(amount, song_info, user_name):
+        add_song(user_name, amount, time, message, cws_number, song_info)
+        update_user_profiles(user_queue) 
+
+                    # Send a thank you message to the user in chat
+        await thanks(user_name, amount, song_info['song'], song_info['artist'], song_info['priority'])
+  
+
+        
+    
 
 @client.event()
 async def event_pubsub_bits(event: pubsub.PubSubBitsMessage):
     #call fuction to handle pubsub_events
-    event_handler(event)
+    await event_handler(event)
   
 def convert_length_to_minutes(length_seconds):
     """Convert length from seconds to minutes."""
