@@ -98,7 +98,7 @@ def get_song_info(cws_number: str, amount: int) -> dict:
             "song": dlc_cws_songs[cws_number][1],
             "artist": dlc_cws_songs[cws_number][0],
             "length": 300,
-            "priority": amount >= 5  
+            "priority": amount >= 500  
         }
     elif cws_number in regular_cws_songs:
         return {
@@ -106,7 +106,7 @@ def get_song_info(cws_number: str, amount: int) -> dict:
             "song": regular_cws_songs[cws_number]["song"],
             "artist": regular_cws_songs[cws_number]["artist"],
             "length": 300,
-            "priority": amount >= 5  
+            "priority": amount >= 500  
         }
     return None
 
@@ -132,12 +132,12 @@ def add_song(user_name: str, amount: int, time: str, message: str, cws_number: s
 async def check_donation(amount: int, song_info: dict, user_name: str) -> bool:
     """Validate the donation based on the song type and amount."""
     #basically a song that is DLC but the bit amount is lower than expected 
-    if song_info["dict_source"] == "dlc" and amount < 3:
+    if song_info["dict_source"] == "dlc" and amount < 300:
         print(f"Hey {user_name}, you might want to try a regular song for that donation.")
         await no_bits(user_name, amount, song_info['song'], song_info['artist'], song_info['priority'])
         missed_queue(user_name, amount)
         return False
-    elif song_info["dict_source"] == "regular" and amount < 1:
+    elif song_info["dict_source"] == "regular" and amount < 100:
         print(f"Hey {user_name}, get they money up not they funny up.")
         await no_bits(user_name, amount, song_info['song'], song_info['artist'], song_info['priority'])
         missed_queue(user_name, amount)
@@ -156,7 +156,7 @@ async def thanks(user_name, amount, song_title, artist, priority):
 async def no_bits(user_name, amount, song_title, artist, priority):
     priority_status = "Priority" if priority else "Regular"
     message = (f"coding32Noo Sorry @{user_name} your {amount} Bits! will not cover"
-               f"'{song_title}' by {artist} as a {priority_status} request.")
+               f"' {song_title}' by {artist} as a {priority_status} request.")
     channel = client.get_channel(broadcast_name[0])
     await channel.send(message)
 
@@ -164,7 +164,7 @@ async def no_bits(user_name, amount, song_title, artist, priority):
 # Send a chat message to no cws users
 async def no_cws(user_name, amount):
     message = (f"coding32What Sorry @{user_name} your {amount} Bits! may cover"
-               f"Your song but that song is not on the list")
+               f" Your song but that song is not on the list")
     channel = client.get_channel(broadcast_name[0])
     await channel.send(message)
 

@@ -2,6 +2,8 @@ let autoScrollEnabled = false; // Track if auto-scrolling is enabled
 let isPaused = false; // Track if scrolling is paused
 let scrollInterval; // Variable to hold the scroll interval
 
+// clear local storage before running 
+// localStorage.clear();
 // Check if local storage has data for checkbox states
 const checkboxStates = JSON.parse(localStorage.getItem('checkboxStates')) || {};
 
